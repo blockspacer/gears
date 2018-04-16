@@ -1,2 +1,5 @@
-# gears
-Rotating gears
+# Gears
+
+Rotating gears.
+
+YAY!
