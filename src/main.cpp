@@ -10,5 +10,4 @@ int main()
     theGame.run();
 
     return 0;
-
 }
