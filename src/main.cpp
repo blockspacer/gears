@@ -5,9 +5,9 @@
 int main()
 {
 
-    auto app = new GearsApp();
+    theGame.initialize();
 
-    delete app;
+    theGame.run();
 
     return 0;
 
