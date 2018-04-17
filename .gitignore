@@ -6,6 +6,7 @@
 *.lo
 *.o
 *.obj
+obj
 
 # Precompiled Headers
 *.gch
@@ -15,10 +16,6 @@
 *.so
 *.dylib
 *.dll
-
-# Fortran module files
-*.mod
-*.smod
 
 # Compiled Static libraries
 *.lai
@@ -30,3 +27,11 @@
 *.exe
 *.out
 *.app
+gears
+
+# Makefiles
+Makefile
+*.make
+
+# VS code files
+.vscode

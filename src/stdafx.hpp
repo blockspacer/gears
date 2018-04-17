@@ -9,3 +9,5 @@
 #include <Thor/Math.hpp>
 #include <Thor/Time.hpp>
 #include <Thor/Vectors.hpp>
+
+#include "conversions.hpp"
