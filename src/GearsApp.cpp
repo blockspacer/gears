@@ -28,7 +28,7 @@ void GearsApp::initialize()
 
     /// INIT GAME COMPONENTS
     // order is important
-    //m_settings = std::make_unique<MkSettings>();
+    m_settings = std::make_unique<ge::Settings>();
     m_actions  = std::make_unique<ge::ActionHandler>();
     m_window   = std::make_unique<sf::RenderWindow>(VideoMode(800, 600), "Gears");
     m_viewPort = std::make_unique<ge::ViewPort>(ge::toVec2i(m_window->getSize()));
@@ -39,7 +39,7 @@ void GearsApp::initialize()
     // init window properties
     m_window->setView(*m_viewPort.get());
     m_window->setKeyRepeatEnabled(false);
-    //m_window->setVerticalSyncEnabled(m_settings->conf.vSync->getValue());
+    m_window->setVerticalSyncEnabled(m_settings->conf.vSync->getValue());
 
     /*
     TODO: move to own modules
@@ -276,7 +276,7 @@ ge::ViewPort& GearsApp::view() { return *m_viewPort.get(); }
 
 ge::Mouse& GearsApp::mouse() { return *m_mouse.get(); }
 
-//MkSettings& GearsApp::settings() { return *m_settings.get(); }
+ge::Settings& GearsApp::settings() { return *m_settings.get(); }
 
 ge::ActionHandler& GearsApp::actions() { return *m_actions.get(); }
 

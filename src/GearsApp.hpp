@@ -1,9 +1,10 @@
 #ifndef GEARSAPP_HPP
 #define GEARSAPP_HPP
 
-#include "declarations.hpp"
+#include "misc/declarations.hpp"
 #include "modules/ActionHandler.hpp"
 #include "modules/Mouse.hpp"
+#include "modules/Settings.hpp"
 #include "modules/ViewPort.hpp"
 
 #include <SFML/Graphics.hpp>
@@ -11,7 +12,6 @@
 
 #include <memory>
 
-//#include "Settings/MkSettings.h"
 //#include "World/MkWorld.h"
 
 
@@ -76,7 +76,7 @@ public:
     /// get the mouse
     ge::Mouse& mouse();
     // get the settings
-    //MkSettings& settings();
+    ge::Settings& settings();
     // get the actions
     ge::ActionHandler& actions();
     // get the GUI
@@ -97,7 +97,7 @@ private:
     std::unique_ptr<ge::Mouse> m_mouse;
 
     /// All the settings of the game
-    //std::unique_ptr<MkSettings> m_settings;
+    std::unique_ptr<ge::Settings> m_settings;
 
     /// The Thor based action handler and mapper
     std::unique_ptr<ge::ActionHandler> m_actions;

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Hotkey.hpp"
-#include "declarations.hpp"
+#include "subclasses/Hotkey.hpp"
+#include "misc/declarations.hpp"
 
 #include <Thor/Input.hpp>
 #include <set>

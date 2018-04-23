@@ -1,8 +1,7 @@
 #include "ActionHandler.hpp"
-#include "stdafx.hpp"
-#include "conversions.hpp"
-
 #include "GearsApp.hpp"
+#include "misc/conversions.hpp"
+#include "stdafx.hpp"
 
 namespace ge {
 
@@ -29,7 +28,7 @@ ActionHandler::ActionHandler()
     m_holdableKeys.insert(HK_LEFT);
     m_holdableKeys.insert(HK_RIGHT);
 
-/*
+
     for(int i = 0; i < HK_COUNT; ++i) {
         HotkeyId id = static_cast<HotkeyId>(i);
 
@@ -38,7 +37,7 @@ ActionHandler::ActionHandler()
         theGame.settings().keys.at(id).getProperty().on_change().connect(
             [this, id](HotkeyPair hotkeys) { updateHotkey(id, hotkeys); });
     }
-    */
+
 
     // Enter / Accept
     m_actions[act::Enter] = Action(Keyboard::Return, Action::ReleaseOnce);

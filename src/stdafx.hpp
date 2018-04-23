@@ -10,4 +10,6 @@
 #include <Thor/Time.hpp>
 #include <Thor/Vectors.hpp>
 
-#include "conversions.hpp"
+#include "misc/conversions.hpp"
+#include "misc/declarations.hpp"
+#include "misc/textconvert.hpp"
