@@ -11,25 +11,29 @@ namespace ge {
 template <typename T>
 inline sf::Vector2f toVec2f(sf::Vector2<T> vector)
 {
-    return sf::Vector2f(static_cast<float>(vector.x), static_cast<float>(vector.y));
+    return sf::Vector2f(static_cast<float>(vector.x),
+                        static_cast<float>(vector.y));
 }
 
 template <typename T>
 inline sf::Vector2i toVec2i(sf::Vector2<T> vector)
 {
-    return sf::Vector2i(static_cast<int>(vector.x), static_cast<int>(vector.y));
+    return sf::Vector2i(static_cast<int>(vector.x),
+                        static_cast<int>(vector.y));
 }
 
 template <typename T>
 inline sf::Vector2u toVec2u(sf::Vector2<T> vector)
 {
-    return sf::Vector2u(static_cast<unsigned int>(vector.x), static_cast<unsigned int>(vector.y));
+    return sf::Vector2u(static_cast<unsigned int>(vector.x),
+                        static_cast<unsigned int>(vector.y));
 }
 
 template <typename T>
 inline T manhattanDist(sf::Vector2<T> vector1, sf::Vector2<T> vector2)
 {
-    return abs(vector2.x - vector1.x) + abs(vector2.y - vector1.y);
+    return abs(vector2.x - vector1.x) +
+           abs(vector2.y - vector1.y);
 }
 
 template <typename T>
