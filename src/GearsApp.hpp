@@ -1,17 +1,19 @@
 #ifndef GEARSAPP_HPP
 #define GEARSAPP_HPP
 
+#include "declarations.hpp"
+#include "modules/ActionHandler.hpp"
 #include "modules/Mouse.hpp"
 #include "modules/ViewPort.hpp"
+
 #include <SFML/Graphics.hpp>
 #include <TGUI/Gui.hpp>
+
 #include <memory>
 
 //#include "Settings/MkSettings.h"
-//#include "System/MkActionHandler.h"
 //#include "World/MkWorld.h"
 
-//#include "Declarations.h"
 
 #define theGame GearsApp::instance()
 
@@ -49,17 +51,21 @@ protected:
 
 public:
     /// ACTION CALLBACKS
-    /*
-  void onQuit();
-  void onResize();
 
-  void onEscape();
-  void onEnter();
+    void onQuit();
+    void onResize();
 
-  void onNav(mk::Direction direction);
-  void onMouseMove(const act::Context& context);
-  void onMouseScroll(const act::Context& context);
-*/
+    void onEscape();
+    void onEnter();
+
+    void onNav(ge::Direction direction);
+
+    void onMouseMove(const act::Context& context);
+    void onMouseSelect(const act::Context& context);
+    void onMouseSelectDrag(const act::Context& context);
+    void onMouseCommand(const act::Context& context);
+    void onMousePan(const act::Context& context);
+    void onMouseScroll(const act::Context& context);
 
     /// MODULE GETTERS
 
@@ -72,7 +78,7 @@ public:
     // get the settings
     //MkSettings& settings();
     // get the actions
-    //MkActionHandler& actions();
+    ge::ActionHandler& actions();
     // get the GUI
     //tgui::Gui& gui();
     // get the World
@@ -94,7 +100,7 @@ private:
     //std::unique_ptr<MkSettings> m_settings;
 
     /// The Thor based action handler and mapper
-    //std::unique_ptr<MkActionHandler> m_actions;
+    std::unique_ptr<ge::ActionHandler> m_actions;
 
     /// The GUI based on the TGUI lib
     //std::unique_ptr<tgui::Gui> m_gui;

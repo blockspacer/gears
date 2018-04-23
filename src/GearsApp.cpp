@@ -29,9 +29,9 @@ void GearsApp::initialize()
     /// INIT GAME COMPONENTS
     // order is important
     //m_settings = std::make_unique<MkSettings>();
-    //m_actions = std::make_unique<MkActionHandler>();
+    m_actions  = std::make_unique<ge::ActionHandler>();
     m_window   = std::make_unique<sf::RenderWindow>(VideoMode(800, 600), "Gears");
-    m_viewPort = std::make_unique<ge::ViewPort>(toVec2i(m_window->getSize()));
+    m_viewPort = std::make_unique<ge::ViewPort>(ge::toVec2i(m_window->getSize()));
     m_mouse    = std::make_unique<ge::Mouse>();
     //m_gui = std::make_unique<tgui::Gui>(m_window);
     //m_world = std::make_unique<MkWorld>();
@@ -97,15 +97,6 @@ void GearsApp::run()
 
 void GearsApp::update()
 {
-    /* TODO: move to mouse
-
-    if (m_mouseDelta != Vector2i()) {
-        if (m_actions->map().isActive(act::MousePan)) {
-            auto viewDelta = m_window->mapPixelToCoords(m_mouseDelta) - m_window->mapPixelToCoords(Vector2i(0, 0));
-            m_viewPort->panBy(-viewDelta * 2.f);
-        }
-    }
-    */
 
     // update the view
     m_viewPort->update();
@@ -143,31 +134,27 @@ void GearsApp::render()
 
 void GearsApp::resetFrame()
 {
-    /*
     // reset per frame member variables
-    m_mouseDelta = Vector2i();
+    m_mouse->setPosition(m_mouse->position());
 
     // clear events from last frame
     m_actions->map().clearEvents();
-    */
 }
 
 void GearsApp::handleEvents()
 {
-    /*
     // poll the sfml event queue
     Event event;
-    while (m_window->pollEvent(event)) {
+    while(m_window->pollEvent(event)) {
         // give event to the gui first
-        if (!m_gui->handleEvent(event)) {
-            // if event falls through gui forward to the Thor ActionMap
-            m_actions->map().pushEvent(event);
-        }
+        //if(!m_gui->handleEvent(event)) {
+        // if event falls through gui forward to the Thor ActionMap
+        m_actions->map().pushEvent(event);
+        //}
     }
 
     // invoke Thor Actions
-    m_actions->map().invokeCallbacks(m_actions->system(), &m_window);
-    */
+    m_actions->map().invokeCallbacks(m_actions->system(), m_window.get());
 }
 /*
 void GearsApp::updateSelection()
@@ -209,10 +196,10 @@ void GearsApp::updateSelection()
 */
 
 /// ACTION CALLBACKS
-/*
+
 void GearsApp::onQuit() { m_window->close(); }
 
-void GearsApp::onResize() { m_viewPort->resize(toVec2i(m_window->getSize())); }
+void GearsApp::onResize() { m_viewPort->resize(ge::toVec2i(m_window->getSize())); }
 
 void GearsApp::onEscape()
 {
@@ -225,24 +212,26 @@ void GearsApp::onEnter()
     // TODO: implement
 }
 
-void GearsApp::onNav(mk::Direction direction)
+void GearsApp::onNav(ge::Direction direction)
 {
     // panning by the keyboard
 
-    const float panScale = m_dt * m_viewPort->getZoomFactor() * theGame.settings().conf.panSpeed->getValue();
+    // TODO: When in menu, navigate buttons instead
+
+    const float panScale = m_dt * m_viewPort->getZoomFactor();  // * m_settings().conf.panSpeed->getValue();
 
     sf::Vector2f viewDelta(0, 0);
-    switch (direction) {
-    case mk::LEFT:
+    switch(direction) {
+    case ge::LEFT:
         viewDelta.x -= panScale;
         break;
-    case mk::RIGHT:
+    case ge::RIGHT:
         viewDelta.x += panScale;
         break;
-    case mk::UP:
+    case ge::UP:
         viewDelta.y -= panScale;
         break;
-    case mk::DOWN:
+    case ge::DOWN:
         viewDelta.y += panScale;
         break;
     default:
@@ -253,24 +242,43 @@ void GearsApp::onNav(mk::Direction direction)
 
 void GearsApp::onMouseMove(const act::Context& context)
 {
-    Vector2i newMousePos(context.event->mouseMove.x, context.event->mouseMove.y);
-    m_mouseDelta = newMousePos - m_mousePos;
-    m_mousePos = newMousePos;
+    m_mouse->setPosition(sf::Vector2i(context.event->mouseMove.x,
+                                      context.event->mouseMove.y));
+}
+
+void GearsApp::onMouseSelect(const act::Context& context)
+{
+}
+
+void GearsApp::onMouseSelectDrag(const act::Context& context)
+{
+}
+
+void GearsApp::onMouseCommand(const act::Context& context)
+{
+}
+
+void GearsApp::onMousePan(const act::Context& context)
+{
+    auto viewDelta = m_window->mapPixelToCoords(m_mouse->delta()) - m_window->mapPixelToCoords(Vector2i(0, 0));
+    m_viewPort->panBy(-viewDelta * 2.f);
 }
 
 void GearsApp::onMouseScroll(const act::Context& context)
 {
-    m_viewPort->zoom(context.event->mouseWheelScroll.delta < 0 ? ViewPort::ZOOM_OUT
-                                                           : ViewPort::ZOOM_IN);
+    m_viewPort->zoom(context.event->mouseWheelScroll.delta < 0 ? ge::ViewPort::ZOOM_OUT
+                                                               : ge::ViewPort::ZOOM_IN);
 }
-*/
+
 sf::RenderWindow& GearsApp::window() { return *m_window.get(); }
 
 ge::ViewPort& GearsApp::view() { return *m_viewPort.get(); }
 
+ge::Mouse& GearsApp::mouse() { return *m_mouse.get(); }
+
 //MkSettings& GearsApp::settings() { return *m_settings.get(); }
 
-//MkActionHandler& GearsApp::actions() { return *m_actions.get(); }
+ge::ActionHandler& GearsApp::actions() { return *m_actions.get(); }
 
 //tgui::Gui& GearsApp::gui() { return *m_gui.get(); }
 

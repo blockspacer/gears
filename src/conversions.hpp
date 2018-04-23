@@ -2,8 +2,11 @@
 #define CONVERSIONS_HPP
 
 #include <SFML/System/Vector2.hpp>
+#include <Thor/Input.hpp>
 
 #include <algorithm>
+
+namespace ge {
 
 template <typename T>
 inline sf::Vector2f toVec2f(sf::Vector2<T> vector)
@@ -34,5 +37,7 @@ inline T clamp(T value, T low, T high)
 {
     return (high < low) ? value : std::max(low, std::min(high, value));
 }
+
+} //namespace
 
 #endif // CONVERSIONS_HPP

@@ -9,14 +9,16 @@ class Mouse
 {
 public:
 
-    const sf::Vector2i& position() const { return m_mousePos; };
-    const sf::Vector2i& delta() const { return m_mouseDelta; };
-    const sf::Vector2i& tile() const { return m_mouseTile; };
+    void setPosition(sf::Vector2i position);
+
+    const sf::Vector2i& position() const { return m_position; };
+    const sf::Vector2i& delta() const { return m_delta; };
+    const sf::Vector2i& tile() const { return m_tile; };
 
 private:
-    sf::Vector2i m_mousePos;   // current position of mouse on screen
-    sf::Vector2i m_mouseDelta; // vector of mouse position change in this frame
-    sf::Vector2i m_mouseTile;  // current tile under mouse
+    sf::Vector2i m_position;   // current position of mouse on screen
+    sf::Vector2i m_delta; // vector of mouse position change in this frame
+    sf::Vector2i m_tile;  // current tile under mouse
 };
 
 } // ge namespace
