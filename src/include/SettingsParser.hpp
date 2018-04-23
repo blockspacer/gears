@@ -69,15 +69,12 @@ private:
 template <typename T>
 inline bool SettingsParser::get(const std::string& key, T& value) const
 {
-    /*
-  auto it = m_data.find( key );
-  if( it != m_data.end() )
-  {
-          value = mk::strToType<T>( it->second );
-          return true;
-  }
-  */
-    // TODO: Fix linker error
+
+    auto it = m_data.find(key);
+    if(it != m_data.end()) {
+        value = ge::strToType<T>(it->second);
+        return true;
+    }
     return false;
 }
 
@@ -86,21 +83,15 @@ inline bool SettingsParser::get(const std::string& key, T& value) const
 template <typename T>
 inline bool SettingsParser::set(const std::string& key, const T& value)
 {
-    /*
-  // the [] operator replaces the value if the key is found, if not it creates a
-  new element
-  if( key.length() != 0 )
-  {
-          std::string newData = mk::typeToStr<T>( value );
-          if( m_data[key] != newData )
-          {
-                  m_data[key] = newData;
-                  m_isChanged = true;
-                  return true;
-          }
-  }
-  */
-    // TODO: Fix linker error
+    // the [] operator replaces the value if the key is found, if not it creates a new element
+    if(key.length() != 0) {
+        std::string newData = ge::typeToStr<T>(value);
+        if(m_data[key] != newData) {
+            m_data[key] = newData;
+            m_isChanged = true;
+            return true;
+        }
+    }
     return false;
 }
 
