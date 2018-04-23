@@ -35,7 +35,8 @@ void ViewPort::update()
     float yOffset = glOffset + ((m_viewSize.y % 2) ? 0.5f : 0.0f);
 
     // snap viewpos to pixels to prevent glitches
-    setCenter(round(m_viewPos.x - xOffset) + xOffset, round(m_viewPos.y - yOffset) + yOffset);
+    setCenter(round(m_viewPos.x - xOffset) + xOffset,
+              round(m_viewPos.y - yOffset) + yOffset);
 }
 
 void ViewPort::resize(sf::Vector2i size)
