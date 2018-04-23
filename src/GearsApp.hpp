@@ -1,13 +1,11 @@
 #ifndef GEARSAPP_HPP
 #define GEARSAPP_HPP
 
-#include <memory>
-
-#include <SFML/Graphics.hpp>
-
-#include <TGUI/Gui.hpp>
-
+#include "modules/Mouse.hpp"
 #include "modules/ViewPort.hpp"
+#include <SFML/Graphics.hpp>
+#include <TGUI/Gui.hpp>
+#include <memory>
 
 //#include "Settings/MkSettings.h"
 //#include "System/MkActionHandler.h"
@@ -17,7 +15,8 @@
 
 #define theGame GearsApp::instance()
 
-class GearsApp {
+class GearsApp
+{
 public:
     /// INIT
     void initialize();
@@ -62,12 +61,14 @@ public:
   void onMouseScroll(const act::Context& context);
 */
 
-    /// REFERENCE GETTERS
+    /// MODULE GETTERS
 
     // get the game window
     sf::RenderWindow& window();
     // get the default view
-    ViewPort& view();
+    ge::ViewPort& view();
+    /// get the mouse
+    ge::Mouse& mouse();
     // get the settings
     //MkSettings& settings();
     // get the actions
@@ -84,7 +85,10 @@ private:
     std::unique_ptr<sf::RenderWindow> m_window;
 
     /// The viewport used for displaying the world to the user
-    std::unique_ptr<ViewPort> m_viewPort;
+    std::unique_ptr<ge::ViewPort> m_viewPort;
+
+    /// Mouse pointer information
+    std::unique_ptr<ge::Mouse> m_mouse;
 
     /// All the settings of the game
     //std::unique_ptr<MkSettings> m_settings;
@@ -99,13 +103,10 @@ private:
     //std::unique_ptr<MkWorld> m_world;
 
     /// GAME STATE VARIABLES
-    //sf::Vector2i m_mousePos;   // current position of mouse on screen
-    //sf::Vector2i m_mouseTile;  // current tile under mouse
 
     /// PER FRAME STATE VARIABLES
     sf::Clock m_frameClock; // clock for keeping track of frame length
-    float m_dt; // time since last frame
-    //sf::Vector2i m_mouseDelta; // vector of mouse position change in this frame
+    float     m_dt;         // time since last frame
 
     /// SELECTION
     //bool               m_selecting;         // if selection is being made

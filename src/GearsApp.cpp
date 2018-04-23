@@ -30,10 +30,11 @@ void GearsApp::initialize()
     // order is important
     //m_settings = std::make_unique<MkSettings>();
     //m_actions = std::make_unique<MkActionHandler>();
-    m_window = std::make_unique<sf::RenderWindow>(VideoMode(800, 600), "Gears");
-    //m_world = std::make_unique<MkWorld>();
-    m_viewPort = std::make_unique<ViewPort>(toVec2i(m_window->getSize()));
+    m_window   = std::make_unique<sf::RenderWindow>(VideoMode(800, 600), "Gears");
+    m_viewPort = std::make_unique<ge::ViewPort>(toVec2i(m_window->getSize()));
+    m_mouse    = std::make_unique<ge::Mouse>();
     //m_gui = std::make_unique<tgui::Gui>(m_window);
+    //m_world = std::make_unique<MkWorld>();
 
     // init window properties
     m_window->setView(*m_viewPort.get());
@@ -61,15 +62,14 @@ void GearsApp::initialize()
     update();
 
     std::cout << "Initialization successful (" << initTime.getElapsedTime().asSeconds() << " s)\n";
-    // flush buffer
-    std::cout << std::endl;
+    std::cout << std::flush;
 }
 
 /// RUN & UPDATE & RENDER
 
 void GearsApp::run()
 {
-    while (m_window->isOpen()) {
+    while(m_window->isOpen()) {
         // set time since last frame
         m_dt = m_frameClock.getElapsedTime().asSeconds();
         m_frameClock.restart();
@@ -266,7 +266,7 @@ void GearsApp::onMouseScroll(const act::Context& context)
 */
 sf::RenderWindow& GearsApp::window() { return *m_window.get(); }
 
-ViewPort& GearsApp::view() { return *m_viewPort.get(); }
+ge::ViewPort& GearsApp::view() { return *m_viewPort.get(); }
 
 //MkSettings& GearsApp::settings() { return *m_settings.get(); }
 

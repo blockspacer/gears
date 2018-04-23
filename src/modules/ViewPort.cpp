@@ -1,6 +1,8 @@
 #include "ViewPort.hpp"
 #include "stdafx.hpp"
 
+using namespace ge;
+
 ViewPort::ViewPort(sf::Vector2i size)
     : m_viewSize(size)
     , m_viewPos(0, 0)
@@ -15,13 +17,13 @@ void ViewPort::update()
 {
 
     // update view position if not locked
-    if (m_viewLocked == false) {
+    if(m_viewLocked == false) {
         m_viewPos += m_viewDelta;
     }
     m_viewDelta = sf::Vector2f();
 
     // if view has been resized or zoomed, update size
-    if (m_viewSizeChanged) {
+    if(m_viewSizeChanged) {
         setSize(toVec2f(m_viewSize) * m_zoomFactor);
         m_viewSizeChanged = false;
     }
@@ -33,13 +35,12 @@ void ViewPort::update()
     float yOffset = glOffset + ((m_viewSize.y % 2) ? 0.5f : 0.0f);
 
     // snap viewpos to pixels to prevent glitches
-    setCenter(round(m_viewPos.x - xOffset) + xOffset,
-        round(m_viewPos.y - yOffset) + yOffset);
+    setCenter(round(m_viewPos.x - xOffset) + xOffset, round(m_viewPos.y - yOffset) + yOffset);
 }
 
 void ViewPort::resize(sf::Vector2i size)
 {
-    m_viewSize = size;
+    m_viewSize        = size;
     m_viewSizeChanged = true;
 }
 
@@ -74,16 +75,16 @@ void ViewPort::panBy(sf::Vector2f relativePosition)
 
 void ViewPort::zoom(ZoomDirection zoomDirection)
 {
-    switch (zoomDirection) {
+    switch(zoomDirection) {
     case ViewPort::ZOOM_OUT:
-        if (m_zoomLevel != ZOOM_MIN)
+        if(m_zoomLevel != ZOOM_MIN)
             zoomTo(static_cast<ZoomLevel>(m_zoomLevel + ZOOM_OUT));
         break;
     case ViewPort::ZOOM_RESET:
         zoomTo(static_cast<ZoomLevel>(ZOOM_DEFAULT));
         break;
     case ViewPort::ZOOM_IN:
-        if (m_zoomLevel != ZOOM_MAX)
+        if(m_zoomLevel != ZOOM_MAX)
             zoomTo(static_cast<ZoomLevel>(m_zoomLevel + ZOOM_IN));
         break;
     }
@@ -91,8 +92,8 @@ void ViewPort::zoom(ZoomDirection zoomDirection)
 
 void ViewPort::zoomTo(ZoomLevel zoomLevel)
 {
-    m_zoomLevel = zoomLevel;
-    m_zoomFactor = exp2((float)-m_zoomLevel);
+    m_zoomLevel       = zoomLevel;
+    m_zoomFactor      = exp2((float)-m_zoomLevel);
     m_viewSizeChanged = true;
 }
 
