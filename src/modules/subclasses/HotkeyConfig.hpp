@@ -1,6 +1,5 @@
-#pragma once
-#ifndef MKHOTKEY_H
-#define MKHOTKEY_H
+#ifndef HOTKEYCONFIG_HPP
+#define HOTKEYCONFIG_HPP
 
 #include "ConfigBase.hpp"
 #include "Hotkey.hpp"
@@ -10,10 +9,7 @@ namespace ge {
 class HotkeyConfig : public ge::ConfigBase<HotkeyPair>
 {
 public:
-    HotkeyConfig()
-        : HotkeyConfig(""){};
-
-    HotkeyConfig(std::string name,
+    HotkeyConfig(std::string name             = std::string(),
                  Hotkey      defaultPrimary   = Hotkey(),
                  Hotkey      defaultSecondary = Hotkey())
         : HotkeyConfig(name, std::make_pair(defaultPrimary, defaultSecondary)){};
@@ -79,6 +75,7 @@ public:
         return m_default;
     }
 };
-}
 
-#endif // !MKHOTKEY_H
+} // end namespace
+
+#endif // !HOTKEYCONFIG_HPP

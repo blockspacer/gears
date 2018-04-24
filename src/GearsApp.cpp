@@ -218,7 +218,7 @@ void GearsApp::onNav(ge::Direction direction)
 
     // TODO: When in menu, navigate buttons instead
 
-    const float panScale = m_dt * m_viewPort->getZoomFactor();  // * m_settings().conf.panSpeed->getValue();
+    const float panScale = m_dt * m_viewPort->getZoomFactor() * m_settings->conf.panSpeed->getValue();
 
     sf::Vector2f viewDelta(0, 0);
     switch(direction) {
