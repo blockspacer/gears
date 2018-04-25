@@ -23,7 +23,6 @@ enum Id
 
     MouseMove,
     MouseSelect,
-    MouseSelectDrag,
     MouseCommand,
     MousePan,
     MouseScroll

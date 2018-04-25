@@ -43,11 +43,6 @@ void GearsEngine::initialize()
     /*
     TODO: move to own modules
 
-    // set selection rectangle properties
-    m_selectionRect.setFillColor(Color::Transparent);
-    m_selectionRect.setOutlineColor(Color::White);
-    m_selectionRect.setOutlineThickness(1);
-
     // set cursorshade rect
     m_cursorShade.setFillColor(sf::Color(0, 0xff, 0, 0x64));
     m_cursorShade.setSize(Vector2f(16.f, 16.f));
@@ -129,10 +124,8 @@ void GearsEngine::update()
     m_viewPort->update();
 
     /* TODO: move
-
     // update cursor Shade and mouseTile
     Vector2f mouseWorldPos = m_window->mapPixelToCoords(m_mousePos);
-
     m_mouseTile.x = (static_cast<int>(mouseWorldPos.x) / 16) - (mouseWorldPos.x < 0 ? 1 : 0);
     m_mouseTile.y = (static_cast<int>(mouseWorldPos.y) / 16) - (mouseWorldPos.y < 0 ? 1 : 0);
     m_cursorShade.setPosition(Vector2f(m_mouseTile.x * 16.f, m_mouseTile.y * 16.f));
@@ -140,9 +133,6 @@ void GearsEngine::update()
 
     // update the world
     m_world->update(m_dt);
-
-    //TODO: move
-    //updateSelection();
 }
 
 void GearsEngine::render()
@@ -156,55 +146,14 @@ void GearsEngine::draw()
     m_world->draw(*m_window);
 
     /* TODO: move
-
     m_window->draw(m_cursorShade);
-    if (m_selecting) {
-        m_window->draw(m_selectionRect);
-    }
     */
 
     // display window
     m_window->display();
 }
 
-/*
-void GearsEngine::updateSelection()
-{
-    bool rectChanged = false; // rect update required?
 
-    if (m_actions->map().isActive(act::MouseSelect)) {
-        if (m_selecting) {
-            // continue selection
-            m_selectionEndPos = m_window->mapPixelToCoords(m_mousePos);
-        } else {
-            // start selection
-            m_selecting = true;
-            m_selectionStartPos = m_window->mapPixelToCoords(m_mousePos);
-            m_selectionEndPos = m_selectionStartPos;
-        }
-        rectChanged = true;
-    } else if (m_selecting) {
-        // end selection
-        m_selecting = false;
-        m_selectionStartPos = sf::Vector2f();
-        m_selectionEndPos = sf::Vector2f();
-        rectChanged = true;
-
-        m_world->selectionEvent(sf::FloatRect(m_selectionRect.getPosition(),
-            m_selectionRect.getSize()));
-    }
-
-    if (rectChanged) {
-        // update rect
-        m_selectionRect.setSize(
-            sf::Vector2f(std::abs(m_selectionEndPos.x - m_selectionStartPos.x),
-                std::abs(m_selectionEndPos.y - m_selectionStartPos.y)));
-        m_selectionRect.setPosition(
-            sf::Vector2f(std::min(m_selectionStartPos.x, m_selectionEndPos.x),
-                std::min(m_selectionStartPos.y, m_selectionEndPos.y)));
-    }
-}
-*/
 
 /// ACTION CALLBACKS
 
@@ -259,19 +208,18 @@ void GearsEngine::onMouseMove(const act::Context& context)
 
 void GearsEngine::onMouseSelect(const act::Context& context)
 {
-}
-
-void GearsEngine::onMouseSelectDrag(const act::Context& context)
-{
+    m_world->selectionEvent(m_window->mapPixelToCoords(m_mouse->position()));
 }
 
 void GearsEngine::onMouseCommand(const act::Context& context)
 {
+    m_world->commandEvent(m_window->mapPixelToCoords(m_mouse->position()));
 }
 
 void GearsEngine::onMousePan(const act::Context& context)
 {
-    auto viewDelta = m_window->mapPixelToCoords(m_mouse->delta()) - m_window->mapPixelToCoords(Vector2i(0, 0));
+    auto viewDelta = m_window->mapPixelToCoords(m_mouse->delta()) -
+                     m_window->mapPixelToCoords(Vector2i(0, 0));
     m_viewPort->panBy(-viewDelta);
 }
 

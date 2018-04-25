@@ -44,6 +44,8 @@ void World::update(float dt)
     anax::World::refresh();
 
     m_movementSystem.update(dt);
+
+    m_selectionSystem.update();
 }
 
 void World::render(sf::RenderTarget& rt)
@@ -57,11 +59,18 @@ void World::draw(sf::RenderTarget& rt) const
     m_map.draw(rt);
 
     m_renderingSystem.render(rt);
+
+    m_selectionSystem.draw(rt);
 }
 
-void World::selectionEvent(sf::FloatRect selectionRect)
+void World::selectionEvent(const sf::Vector2f& pos)
 {
-    m_selectionSystem.select(selectionRect);
+    m_selectionSystem.selectionEvent(pos);
+}
+
+void World::commandEvent(const sf::Vector2f& pos)
+{
+    // TODO: Implement
 }
 
 } // end ns

@@ -58,7 +58,6 @@ public:
 
     void onMouseMove(const act::Context& context);
     void onMouseSelect(const act::Context& context);
-    void onMouseSelectDrag(const act::Context& context);
     void onMouseCommand(const act::Context& context);
     void onMousePan(const act::Context& context);
     void onMouseScroll(const act::Context& context);
@@ -110,13 +109,6 @@ private:
 
     /// The GUI based on the TGUI lib
     std::unique_ptr<tgui::Gui> m_gui;
-
-
-    /// SELECTION
-    //bool               m_selecting;         // if selection is being made
-    //sf::Vector2f       m_selectionStartPos; // start of dragging selection box
-    //sf::Vector2f       m_selectionEndPos;   // end of dragging selection box
-    //sf::RectangleShape m_selectionRect;     // rectngle for displaying selection
 
     // Cursorshade
     //sf::RectangleShape m_cursorShade; // rectangle for highlighing tile under cursor

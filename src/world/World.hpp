@@ -20,7 +20,8 @@ public:
     void render(sf::RenderTarget& rt);
     void draw(sf::RenderTarget& rt) const;
 
-    void selectionEvent(sf::FloatRect selectionRect);
+    void selectionEvent(const sf::Vector2f& pos);
+    void commandEvent(const sf::Vector2f& pos);
 
 private:
     Map m_map;

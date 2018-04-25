@@ -62,17 +62,14 @@ ActionHandler::ActionHandler()
 
     m_actions[act::MouseMove]       = Action(Event::MouseMoved);
     m_actions[act::MouseSelect]     = Action(sf::Mouse::Left);
-    m_actions[act::MouseSelectDrag] = m_actions[act::MouseMove] && m_actions[act::MouseSelect];
     m_actions[act::MouseCommand]    = Action(sf::Mouse::Right);
-    m_actions[act::MousePan]        = m_actions[act::MouseMove] && Action(sf::Mouse::Right);
+    m_actions[act::MousePan]        = Action(sf::Mouse::Right) && m_actions[act::MouseMove];
     m_actions[act::MouseScroll]     = Action(Event::MouseWheelScrolled);
 
     m_events.connect(act::MouseMove,
                      [](const act::Context& context) { theGame.onMouseMove(context); });
     m_events.connect(act::MouseSelect,
                      [](const act::Context& context) { theGame.onMouseSelect(context); });
-    m_events.connect(act::MouseSelectDrag,
-                     [](const act::Context& context) { theGame.onMouseSelectDrag(context); });
     m_events.connect(act::MouseCommand,
                      [](const act::Context& context) { theGame.onMouseCommand(context); });
     m_events.connect(act::MousePan,
