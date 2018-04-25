@@ -6,14 +6,12 @@
 #include "modules/Mouse.hpp"
 #include "modules/Settings.hpp"
 #include "modules/ViewPort.hpp"
+#include "world/World.hpp"
 
 #include <SFML/Graphics.hpp>
 #include <TGUI/Gui.hpp>
 
 #include <memory>
-
-//#include "World/MkWorld.h"
-
 
 #define theGame GearsApp::instance()
 
@@ -79,10 +77,10 @@ public:
     ge::Settings& settings();
     // get the actions
     ge::ActionHandler& actions();
+    // get the World
+    ge::World& world();
     // get the GUI
     //tgui::Gui& gui();
-    // get the World
-    //MkWorld& world();
 
 private:
     /// GAME MODULES
@@ -102,11 +100,11 @@ private:
     /// The Thor based action handler and mapper
     std::unique_ptr<ge::ActionHandler> m_actions;
 
+    /// The world which the game takes place in
+    std::unique_ptr<ge::World> m_world;
+
     /// The GUI based on the TGUI lib
     //std::unique_ptr<tgui::Gui> m_gui;
-
-    /// The world which the game takes place in
-    //std::unique_ptr<MkWorld> m_world;
 
     /// GAME STATE VARIABLES
 

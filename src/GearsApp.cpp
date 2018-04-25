@@ -33,8 +33,8 @@ void GearsApp::initialize()
     m_window   = std::make_unique<sf::RenderWindow>(VideoMode(800, 600), "Gears");
     m_viewPort = std::make_unique<ge::ViewPort>(ge::toVec2i(m_window->getSize()));
     m_mouse    = std::make_unique<ge::Mouse>();
+    m_world    = std::make_unique<ge::World>();
     //m_gui = std::make_unique<tgui::Gui>(m_window);
-    //m_world = std::make_unique<MkWorld>();
 
     // init window properties
     m_window->setView(*m_viewPort.get());
@@ -112,7 +112,7 @@ void GearsApp::update()
     */
 
     // update the world
-    //m_world->update(m_dt);
+    m_world->update(m_dt);
 
     //TODO: move
     //updateSelection();
@@ -121,7 +121,7 @@ void GearsApp::update()
 void GearsApp::render()
 {
     // render the world
-    //m_world->draw(m_window);
+    m_world->draw(*m_window);
 
     /* TODO: move
 
@@ -261,7 +261,7 @@ void GearsApp::onMouseCommand(const act::Context& context)
 void GearsApp::onMousePan(const act::Context& context)
 {
     auto viewDelta = m_window->mapPixelToCoords(m_mouse->delta()) - m_window->mapPixelToCoords(Vector2i(0, 0));
-    m_viewPort->panBy(-viewDelta * 2.f);
+    m_viewPort->panBy(-viewDelta);
 }
 
 void GearsApp::onMouseScroll(const act::Context& context)
@@ -280,6 +280,6 @@ ge::Settings& GearsApp::settings() { return *m_settings.get(); }
 
 ge::ActionHandler& GearsApp::actions() { return *m_actions.get(); }
 
-//tgui::Gui& GearsApp::gui() { return *m_gui.get(); }
+ge::World& GearsApp::world() { return *m_world.get(); }
 
-//MkWorld& GearsApp::world() { return *m_world.get(); }
+//tgui::Gui& GearsApp::gui() { return *m_gui.get(); }
