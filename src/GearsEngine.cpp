@@ -14,10 +14,10 @@ GearsEngine& GearsEngine::instance() { return *s_instance; }
 
 void GearsEngine::initialize()
 {
-    // Start Init
+    // Start Init timer
+    sf::Clock initClock;
+
     std::cout << "Initializing Gears Engine... \n\n";
-    thor::StopWatch initTime;
-    initTime.start();
 
     // print Library versions
     std::cout << "Library versions:\n";
@@ -33,11 +33,10 @@ void GearsEngine::initialize()
     m_window   = std::make_unique<sf::RenderWindow>(VideoMode(800, 600), "Gears");
     m_viewPort = std::make_unique<ge::ViewPort>(ge::toVec2i(m_window->getSize()));
     m_mouse    = std::make_unique<ge::Mouse>();
+    m_gui      = std::make_unique<tgui::Gui>(*m_window);
     m_world    = std::make_unique<ge::World>();
-    //m_gui = std::make_unique<tgui::Gui>(m_window);
 
     // init window properties
-    m_window->setView(*m_viewPort.get());
     m_window->setKeyRepeatEnabled(false);
     m_window->setVerticalSyncEnabled(m_settings->conf.vSync->getValue());
 
@@ -54,14 +53,11 @@ void GearsEngine::initialize()
     m_cursorShade.setSize(Vector2f(16.f, 16.f));
 */
 
-    // init frame variables
+    // make an initial loop with 0 dt
     m_dt = 0;
-    resetFrame();
+    loop();
 
-    // initial update
-    update();
-
-    std::cout << "Initialization successful (" << initTime.getElapsedTime().asSeconds() << " s)\n";
+    std::cout << "Initialization successful (" << initClock.getElapsedTime().asSeconds() << " s)\n";
     std::cout << std::flush;
 }
 
@@ -70,34 +66,65 @@ void GearsEngine::initialize()
 void GearsEngine::run()
 {
     while(m_window->isOpen()) {
-        // set time since last frame
+
+        // measure time since last frame & restart clock
         m_dt = m_frameClock.getElapsedTime().asSeconds();
         m_frameClock.restart();
 
-        // reset window
-        m_window->clear();
-        m_window->setView(*m_viewPort.get());
-
-        // reset frame state
-        resetFrame();
-
-        // poll all events and invoke actions based on them
-        handleEvents();
-
-        // update frame based on the cosequenses of actions
-        update();
-
-        // render frame
-        render();
-
-        // display window
-        m_window->display();
+        // call main loop
+        loop();
     }
+}
+
+void GearsEngine::loop()
+{
+    // reset frame state
+    resetFrame();
+
+    // poll all events and invoke actions based on them
+    handleEvents();
+
+    // update frame based on the cosequenses of actions
+    update();
+
+    // render frame
+    render();
+
+    // draw everything
+    draw();
+}
+
+void GearsEngine::resetFrame()
+{
+    // reset window
+    m_window->clear();
+    m_window->setView(*m_viewPort.get());
+
+    // reset mouse delta
+    m_mouse->setPosition(m_mouse->position());
+
+    // clear events from last frame
+    m_actions->map().clearEvents();
+}
+
+void GearsEngine::handleEvents()
+{
+    // poll the sfml event queue
+    Event event;
+    while(m_window->pollEvent(event)) {
+        // give event to the gui first
+        if(!m_gui->handleEvent(event)) {
+            // if event falls through gui forward to the Thor ActionMap
+            m_actions->map().pushEvent(event);
+        }
+    }
+
+    // invoke Thor Actions
+    m_actions->map().invokeCallbacks(m_actions->system(), m_window.get());
 }
 
 void GearsEngine::update()
 {
-
     // update the view
     m_viewPort->update();
 
@@ -120,7 +147,12 @@ void GearsEngine::update()
 
 void GearsEngine::render()
 {
-    // render the world
+    m_world->render(*m_window);
+}
+
+void GearsEngine::draw()
+{
+    // draw the world
     m_world->draw(*m_window);
 
     /* TODO: move
@@ -130,32 +162,11 @@ void GearsEngine::render()
         m_window->draw(m_selectionRect);
     }
     */
+
+    // display window
+    m_window->display();
 }
 
-void GearsEngine::resetFrame()
-{
-    // reset per frame member variables
-    m_mouse->setPosition(m_mouse->position());
-
-    // clear events from last frame
-    m_actions->map().clearEvents();
-}
-
-void GearsEngine::handleEvents()
-{
-    // poll the sfml event queue
-    Event event;
-    while(m_window->pollEvent(event)) {
-        // give event to the gui first
-        //if(!m_gui->handleEvent(event)) {
-        // if event falls through gui forward to the Thor ActionMap
-        m_actions->map().pushEvent(event);
-        //}
-    }
-
-    // invoke Thor Actions
-    m_actions->map().invokeCallbacks(m_actions->system(), m_window.get());
-}
 /*
 void GearsEngine::updateSelection()
 {
@@ -282,4 +293,4 @@ ge::ActionHandler& GearsEngine::actions() { return *m_actions.get(); }
 
 ge::World& GearsEngine::world() { return *m_world.get(); }
 
-//tgui::Gui& GearsEngine::gui() { return *m_gui.get(); }
+tgui::Gui& GearsEngine::gui() { return *m_gui.get(); }

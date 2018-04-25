@@ -17,6 +17,7 @@ public:
     ~World();
 
     void update(float dt);
+    void render(sf::RenderTarget& rt);
     void draw(sf::RenderTarget& rt) const;
 
     void selectionEvent(sf::FloatRect selectionRect);

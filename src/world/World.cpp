@@ -41,10 +41,16 @@ void World::update(float dt)
 {
     m_map.update(dt);
 
-    refresh();
+    anax::World::refresh();
 
     m_movementSystem.update(dt);
 }
+
+void World::render(sf::RenderTarget& rt)
+{
+    m_map.render(rt);
+}
+
 
 void World::draw(sf::RenderTarget& rt) const
 {

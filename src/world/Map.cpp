@@ -1,8 +1,8 @@
 #include "Map.hpp"
-#include "GearsEngine.hpp"
 #include "stdafx.hpp"
 
 #include <exception>
+#include <iostream>
 
 namespace ge {
 
@@ -42,7 +42,11 @@ Map::~Map()
 
 void Map::update(float dt)
 {
-    m_renderer.update(theGame.window());
+}
+
+void Map::render(sf::RenderTarget& rt)
+{
+    m_renderer.update(rt);
 }
 
 void Map::draw(sf::RenderTarget& rt) const

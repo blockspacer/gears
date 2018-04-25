@@ -18,32 +18,30 @@
 class GearsEngine
 {
 public:
-    /// INIT
+    /// get the global instance of the engine
+    static GearsEngine& instance();
+
+    /// Initialize the Gears Engine
     void initialize();
 
-    /// INSTANCE
-    // function
-    static GearsEngine& instance();
-    // variable
-    static std::unique_ptr<GearsEngine> s_instance;
-
-    /// RUN
+    /// Run the Gears Engine
     void run();
 
 protected:
-    /// UPDATE
-    // main update function
-    void update();
+    /// a single loop of update & draw
+    void loop();
 
-    /// RENDER
-    // render the current frame
-    void render();
-
-    /// UPDATE HELPERS
     // reset current frame variables
     void resetFrame();
     // handle all kinds of events and actions
     void handleEvents();
+    // main update function
+    void update();
+    // render the current frame
+    void render();
+    // draw the current frame
+    void draw();
+
     // update selection box & select entities
     void updateSelection();
 
@@ -80,9 +78,16 @@ public:
     // get the World
     ge::World& world();
     // get the GUI
-    //tgui::Gui& gui();
+    tgui::Gui& gui();
 
 private:
+    /// static variable which holds the global instance
+    static std::unique_ptr<GearsEngine> s_instance;
+
+    // Frame timing variables
+    sf::Clock m_frameClock; //!< Clock for keeping track of frame length
+    float     m_dt;         //!< Time since last frame
+
     /// GAME MODULES
 
     /// Main Window of the application
@@ -104,13 +109,8 @@ private:
     std::unique_ptr<ge::World> m_world;
 
     /// The GUI based on the TGUI lib
-    //std::unique_ptr<tgui::Gui> m_gui;
+    std::unique_ptr<tgui::Gui> m_gui;
 
-    /// GAME STATE VARIABLES
-
-    /// PER FRAME STATE VARIABLES
-    sf::Clock m_frameClock; // clock for keeping track of frame length
-    float     m_dt;         // time since last frame
 
     /// SELECTION
     //bool               m_selecting;         // if selection is being made

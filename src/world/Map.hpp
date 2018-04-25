@@ -20,6 +20,9 @@ public:
 
     // update map
     void update(float dt);
+
+    // update map renderer
+    void render(sf::RenderTarget& rt);
     // draw map
     void draw(sf::RenderTarget& rt) const;
 
