@@ -1,4 +1,4 @@
-#include "GearsApp.hpp"
+#include "GearsEngine.hpp"
 #include "stdafx.hpp"
 
 #include <Thor/Time.hpp>
@@ -8,11 +8,11 @@
 
 using namespace sf;
 
-std::unique_ptr<GearsApp> GearsApp::s_instance = std::make_unique<GearsApp>();
+std::unique_ptr<GearsEngine> GearsEngine::s_instance = std::make_unique<GearsEngine>();
 
-GearsApp& GearsApp::instance() { return *s_instance; }
+GearsEngine& GearsEngine::instance() { return *s_instance; }
 
-void GearsApp::initialize()
+void GearsEngine::initialize()
 {
     // Start Init
     std::cout << "Initializing Gears Engine... \n\n";
@@ -67,7 +67,7 @@ void GearsApp::initialize()
 
 /// RUN & UPDATE & RENDER
 
-void GearsApp::run()
+void GearsEngine::run()
 {
     while(m_window->isOpen()) {
         // set time since last frame
@@ -95,7 +95,7 @@ void GearsApp::run()
     }
 }
 
-void GearsApp::update()
+void GearsEngine::update()
 {
 
     // update the view
@@ -118,7 +118,7 @@ void GearsApp::update()
     //updateSelection();
 }
 
-void GearsApp::render()
+void GearsEngine::render()
 {
     // render the world
     m_world->draw(*m_window);
@@ -132,7 +132,7 @@ void GearsApp::render()
     */
 }
 
-void GearsApp::resetFrame()
+void GearsEngine::resetFrame()
 {
     // reset per frame member variables
     m_mouse->setPosition(m_mouse->position());
@@ -141,7 +141,7 @@ void GearsApp::resetFrame()
     m_actions->map().clearEvents();
 }
 
-void GearsApp::handleEvents()
+void GearsEngine::handleEvents()
 {
     // poll the sfml event queue
     Event event;
@@ -157,7 +157,7 @@ void GearsApp::handleEvents()
     m_actions->map().invokeCallbacks(m_actions->system(), m_window.get());
 }
 /*
-void GearsApp::updateSelection()
+void GearsEngine::updateSelection()
 {
     bool rectChanged = false; // rect update required?
 
@@ -197,22 +197,22 @@ void GearsApp::updateSelection()
 
 /// ACTION CALLBACKS
 
-void GearsApp::onQuit() { m_window->close(); }
+void GearsEngine::onQuit() { m_window->close(); }
 
-void GearsApp::onResize() { m_viewPort->resize(ge::toVec2i(m_window->getSize())); }
+void GearsEngine::onResize() { m_viewPort->resize(ge::toVec2i(m_window->getSize())); }
 
-void GearsApp::onEscape()
+void GearsEngine::onEscape()
 {
     onQuit();
     // TODO: open main menu / close others
 }
 
-void GearsApp::onEnter()
+void GearsEngine::onEnter()
 {
     // TODO: implement
 }
 
-void GearsApp::onNav(ge::Direction direction)
+void GearsEngine::onNav(ge::Direction direction)
 {
     // panning by the keyboard
 
@@ -240,46 +240,46 @@ void GearsApp::onNav(ge::Direction direction)
     m_viewPort->panBy(viewDelta);
 }
 
-void GearsApp::onMouseMove(const act::Context& context)
+void GearsEngine::onMouseMove(const act::Context& context)
 {
     m_mouse->setPosition(sf::Vector2i(context.event->mouseMove.x,
                                       context.event->mouseMove.y));
 }
 
-void GearsApp::onMouseSelect(const act::Context& context)
+void GearsEngine::onMouseSelect(const act::Context& context)
 {
 }
 
-void GearsApp::onMouseSelectDrag(const act::Context& context)
+void GearsEngine::onMouseSelectDrag(const act::Context& context)
 {
 }
 
-void GearsApp::onMouseCommand(const act::Context& context)
+void GearsEngine::onMouseCommand(const act::Context& context)
 {
 }
 
-void GearsApp::onMousePan(const act::Context& context)
+void GearsEngine::onMousePan(const act::Context& context)
 {
     auto viewDelta = m_window->mapPixelToCoords(m_mouse->delta()) - m_window->mapPixelToCoords(Vector2i(0, 0));
     m_viewPort->panBy(-viewDelta);
 }
 
-void GearsApp::onMouseScroll(const act::Context& context)
+void GearsEngine::onMouseScroll(const act::Context& context)
 {
     m_viewPort->zoom(context.event->mouseWheelScroll.delta < 0 ? ge::ViewPort::ZOOM_OUT
                                                                : ge::ViewPort::ZOOM_IN);
 }
 
-sf::RenderWindow& GearsApp::window() { return *m_window.get(); }
+sf::RenderWindow& GearsEngine::window() { return *m_window.get(); }
 
-ge::ViewPort& GearsApp::view() { return *m_viewPort.get(); }
+ge::ViewPort& GearsEngine::view() { return *m_viewPort.get(); }
 
-ge::Mouse& GearsApp::mouse() { return *m_mouse.get(); }
+ge::Mouse& GearsEngine::mouse() { return *m_mouse.get(); }
 
-ge::Settings& GearsApp::settings() { return *m_settings.get(); }
+ge::Settings& GearsEngine::settings() { return *m_settings.get(); }
 
-ge::ActionHandler& GearsApp::actions() { return *m_actions.get(); }
+ge::ActionHandler& GearsEngine::actions() { return *m_actions.get(); }
 
-ge::World& GearsApp::world() { return *m_world.get(); }
+ge::World& GearsEngine::world() { return *m_world.get(); }
 
-//tgui::Gui& GearsApp::gui() { return *m_gui.get(); }
+//tgui::Gui& GearsEngine::gui() { return *m_gui.get(); }

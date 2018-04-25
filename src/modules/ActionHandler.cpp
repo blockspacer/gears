@@ -1,5 +1,5 @@
 #include "ActionHandler.hpp"
-#include "GearsApp.hpp"
+#include "GearsEngine.hpp"
 #include "misc/conversions.hpp"
 #include "stdafx.hpp"
 
@@ -14,11 +14,11 @@ ActionHandler::ActionHandler()
 
     // Quit
     m_actions[act::Quit] = Action(Event::Closed);
-    m_events.connect0(act::Quit, std::bind(&GearsApp::onQuit, std::ref(theGame)));
+    m_events.connect0(act::Quit, std::bind(&GearsEngine::onQuit, std::ref(theGame)));
 
     // Resize
     m_actions[act::Resize] = Action(Event::Resized);
-    m_events.connect0(act::Resize, std::bind(&GearsApp::onResize, std::ref(theGame)));
+    m_events.connect0(act::Resize, std::bind(&GearsEngine::onResize, std::ref(theGame)));
 
     /// KEY NAVIGATION
 
@@ -41,11 +41,11 @@ ActionHandler::ActionHandler()
 
     // Enter / Accept
     m_actions[act::Enter] = Action(Keyboard::Return, Action::ReleaseOnce);
-    m_events.connect0(act::Enter, std::bind(&GearsApp::onEnter, std::ref(theGame)));
+    m_events.connect0(act::Enter, std::bind(&GearsEngine::onEnter, std::ref(theGame)));
 
     // Escape / Back
     m_actions[act::Escape] = Action(Keyboard::Escape, Action::ReleaseOnce);
-    m_events.connect0(act::Escape, std::bind(&GearsApp::onEscape, std::ref(theGame)));
+    m_events.connect0(act::Escape, std::bind(&GearsEngine::onEscape, std::ref(theGame)));
 
     // Direction keys
     m_actions[act::NavUp]    = realtimeAction([this]() { return m_keyMap.isActive(ge::HK_UP); });
@@ -53,10 +53,10 @@ ActionHandler::ActionHandler()
     m_actions[act::NavLeft]  = realtimeAction([this]() { return m_keyMap.isActive(ge::HK_LEFT); });
     m_actions[act::NavRight] = realtimeAction([this]() { return m_keyMap.isActive(ge::HK_RIGHT); });
 
-    m_events.connect(act::NavUp, std::bind(&GearsApp::onNav, std::ref(theGame), ge::UP));
-    m_events.connect(act::NavDown, std::bind(&GearsApp::onNav, std::ref(theGame), ge::DOWN));
-    m_events.connect(act::NavLeft, std::bind(&GearsApp::onNav, std::ref(theGame), ge::LEFT));
-    m_events.connect(act::NavRight, std::bind(&GearsApp::onNav, std::ref(theGame), ge::RIGHT));
+    m_events.connect(act::NavUp, std::bind(&GearsEngine::onNav, std::ref(theGame), ge::UP));
+    m_events.connect(act::NavDown, std::bind(&GearsEngine::onNav, std::ref(theGame), ge::DOWN));
+    m_events.connect(act::NavLeft, std::bind(&GearsEngine::onNav, std::ref(theGame), ge::LEFT));
+    m_events.connect(act::NavRight, std::bind(&GearsEngine::onNav, std::ref(theGame), ge::RIGHT));
 
     /// MOUSE NAVIGATION
 

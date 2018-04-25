@@ -13,9 +13,9 @@
 
 #include <memory>
 
-#define theGame GearsApp::instance()
+#define theGame GearsEngine::instance()
 
-class GearsApp
+class GearsEngine
 {
 public:
     /// INIT
@@ -23,9 +23,9 @@ public:
 
     /// INSTANCE
     // function
-    static GearsApp& instance();
+    static GearsEngine& instance();
     // variable
-    static std::unique_ptr<GearsApp> s_instance;
+    static std::unique_ptr<GearsEngine> s_instance;
 
     /// RUN
     void run();
