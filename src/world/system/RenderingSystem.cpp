@@ -23,6 +23,8 @@ RenderingSystem::Renderables::Renderables()
 
 void RenderingSystem::render(sf::RenderTarget& rt) const
 {
+    //TODO: Separate logic and drawing
+
     auto entities = getEntities();
     for(auto entity : entities) {
         // Get the components needed

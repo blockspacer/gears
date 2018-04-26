@@ -6,8 +6,8 @@ SelectionSystem::SelectionSystem()
 {
     // set selection rectangle properties
     m_renderable.setFillColor(sf::Color::Transparent);
-    m_renderable.setOutlineColor(sf::Color::White);
-    m_renderable.setOutlineThickness(1);
+    m_renderable.setOutlineColor(sf::Color::Cyan);
+    m_renderable.setOutlineThickness(2);
 }
 
 void SelectionSystem::update()
