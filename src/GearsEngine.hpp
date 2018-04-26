@@ -13,7 +13,7 @@
 
 #include <memory>
 
-#define theGame GearsEngine::instance()
+#define GE_INST GearsEngine::instance()
 
 class GearsEngine
 {

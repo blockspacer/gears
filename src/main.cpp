@@ -5,9 +5,9 @@
 int main()
 {
 
-    theGame.initialize();
+    GE_INST.initialize();
 
-    theGame.run();
+    GE_INST.run();
 
     return 0;
 }

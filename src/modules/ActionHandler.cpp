@@ -14,11 +14,11 @@ ActionHandler::ActionHandler()
 
     // Quit
     m_actions[act::Quit] = Action(Event::Closed);
-    m_events.connect0(act::Quit, std::bind(&GearsEngine::onQuit, std::ref(theGame)));
+    m_events.connect0(act::Quit, std::bind(&GearsEngine::onQuit, std::ref(GE_INST)));
 
     // Resize
     m_actions[act::Resize] = Action(Event::Resized);
-    m_events.connect0(act::Resize, std::bind(&GearsEngine::onResize, std::ref(theGame)));
+    m_events.connect0(act::Resize, std::bind(&GearsEngine::onResize, std::ref(GE_INST)));
 
     /// KEY NAVIGATION
 
@@ -32,20 +32,20 @@ ActionHandler::ActionHandler()
     for(int i = 0; i < HK_COUNT; ++i) {
         HotkeyId id = static_cast<HotkeyId>(i);
 
-        updateHotkey(id, theGame.settings().keys.at(id).getBoth());
+        updateHotkey(id, GE_INST.settings().keys.at(id).getBoth());
 
-        theGame.settings().keys.at(id).getProperty().on_change().connect(
+        GE_INST.settings().keys.at(id).getProperty().on_change().connect(
             [this, id](HotkeyPair hotkeys) { updateHotkey(id, hotkeys); });
     }
 
 
     // Enter / Accept
     m_actions[act::Enter] = Action(Keyboard::Return, Action::ReleaseOnce);
-    m_events.connect0(act::Enter, std::bind(&GearsEngine::onEnter, std::ref(theGame)));
+    m_events.connect0(act::Enter, std::bind(&GearsEngine::onEnter, std::ref(GE_INST)));
 
     // Escape / Back
     m_actions[act::Escape] = Action(Keyboard::Escape, Action::ReleaseOnce);
-    m_events.connect0(act::Escape, std::bind(&GearsEngine::onEscape, std::ref(theGame)));
+    m_events.connect0(act::Escape, std::bind(&GearsEngine::onEscape, std::ref(GE_INST)));
 
     // Direction keys
     m_actions[act::NavUp]    = realtimeAction([this]() { return m_keyMap.isActive(ge::HK_UP); });
@@ -53,10 +53,10 @@ ActionHandler::ActionHandler()
     m_actions[act::NavLeft]  = realtimeAction([this]() { return m_keyMap.isActive(ge::HK_LEFT); });
     m_actions[act::NavRight] = realtimeAction([this]() { return m_keyMap.isActive(ge::HK_RIGHT); });
 
-    m_events.connect(act::NavUp, std::bind(&GearsEngine::onNav, std::ref(theGame), ge::UP));
-    m_events.connect(act::NavDown, std::bind(&GearsEngine::onNav, std::ref(theGame), ge::DOWN));
-    m_events.connect(act::NavLeft, std::bind(&GearsEngine::onNav, std::ref(theGame), ge::LEFT));
-    m_events.connect(act::NavRight, std::bind(&GearsEngine::onNav, std::ref(theGame), ge::RIGHT));
+    m_events.connect(act::NavUp, std::bind(&GearsEngine::onNav, std::ref(GE_INST), ge::UP));
+    m_events.connect(act::NavDown, std::bind(&GearsEngine::onNav, std::ref(GE_INST), ge::DOWN));
+    m_events.connect(act::NavLeft, std::bind(&GearsEngine::onNav, std::ref(GE_INST), ge::LEFT));
+    m_events.connect(act::NavRight, std::bind(&GearsEngine::onNav, std::ref(GE_INST), ge::RIGHT));
 
     /// MOUSE NAVIGATION
 
@@ -67,15 +67,15 @@ ActionHandler::ActionHandler()
     m_actions[act::MouseScroll]     = Action(Event::MouseWheelScrolled);
 
     m_events.connect(act::MouseMove,
-                     [](const act::Context& context) { theGame.onMouseMove(context); });
+                     [](const act::Context& context) { GE_INST.onMouseMove(context); });
     m_events.connect(act::MouseSelect,
-                     [](const act::Context& context) { theGame.onMouseSelect(context); });
+                     [](const act::Context& context) { GE_INST.onMouseSelect(context); });
     m_events.connect(act::MouseCommand,
-                     [](const act::Context& context) { theGame.onMouseCommand(context); });
+                     [](const act::Context& context) { GE_INST.onMouseCommand(context); });
     m_events.connect(act::MousePan,
-                     [](const act::Context& context) { theGame.onMousePan(context); });
+                     [](const act::Context& context) { GE_INST.onMousePan(context); });
     m_events.connect(act::MouseScroll,
-                     [](const act::Context& context) { theGame.onMouseScroll(context); });
+                     [](const act::Context& context) { GE_INST.onMouseScroll(context); });
 }
 
 
