@@ -59,7 +59,6 @@ void SelectionSystem::selectionEvent(const sf::Vector2f& pos)
     }
 }
 
-
 void SelectionSystem::select(sf::FloatRect selectionRect)
 {
     auto entities = getEntities();
@@ -70,6 +69,7 @@ void SelectionSystem::select(sf::FloatRect selectionRect)
 
         // Calculate Body rectangle
         auto bodyRect = sf::FloatRect(posComp.vec, ge::toVec2f(bodyComp.size));
+        // TODO: Include horizontal and vertical line detection, eg: width = 0 | height = 0
         if(selectionRect.intersects(bodyRect) || bodyRect.contains(selectionRect.left, selectionRect.top)) {
             entity.addComponent<cmp::Selected>();
         } else {
