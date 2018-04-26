@@ -16,6 +16,8 @@ World::World()
     addSystem(m_renderingSystem);
     addSystem(m_selectionSystem);
 
+#define TESTING
+
 #ifdef TESTING
 
     // test dwarf entity

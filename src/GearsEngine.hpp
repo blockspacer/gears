@@ -42,9 +42,6 @@ protected:
     // draw the current frame
     void draw();
 
-    // update selection box & select entities
-    void updateSelection();
-
 public:
     /// ACTION CALLBACKS
 
@@ -64,20 +61,13 @@ public:
 
     /// MODULE GETTERS
 
-    // get the game window
-    sf::RenderWindow& window();
-    // get the default view
-    ge::ViewPort& view();
-    /// get the mouse
-    ge::Mouse& mouse();
-    // get the settings
-    ge::Settings& settings();
-    // get the actions
-    ge::ActionHandler& actions();
-    // get the World
-    ge::World& world();
-    // get the GUI
-    tgui::Gui& gui();
+    sf::RenderWindow&  window() { return *m_window.get(); }
+    ge::ViewPort&      view() { return *m_viewPort.get(); }
+    ge::Mouse&         mouse() { return *m_mouse.get(); }
+    ge::Settings&      settings() { return *m_settings.get(); }
+    ge::ActionHandler& actions() { return *m_actions.get(); }
+    ge::World&         world() { return *m_world.get(); }
+    tgui::Gui&         gui() { return *m_gui.get(); }
 
 private:
     /// static variable which holds the global instance
@@ -112,6 +102,7 @@ private:
 
     // Cursorshade
     //sf::RectangleShape m_cursorShade; // rectangle for highlighing tile under cursor
+
 };
 
 #endif //GEARSAPP_HPP

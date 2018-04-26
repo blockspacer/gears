@@ -56,7 +56,7 @@ void GearsEngine::initialize()
     std::cout << std::flush;
 }
 
-/// RUN & UPDATE & RENDER
+/// RUN CYCLE
 
 void GearsEngine::run()
 {
@@ -96,7 +96,7 @@ void GearsEngine::resetFrame()
     m_window->setView(*m_viewPort.get());
 
     // reset mouse delta
-    m_mouse->setPosition(m_mouse->position());
+    m_mouse->reset();
 
     // clear events from last frame
     m_actions->map().clearEvents();
@@ -122,6 +122,8 @@ void GearsEngine::update()
 {
     // update the view
     m_viewPort->update();
+
+    m_mouse->update(m_dt);
 
     /* TODO: move
     // update cursor Shade and mouseTile
@@ -202,8 +204,8 @@ void GearsEngine::onNav(ge::Direction direction)
 
 void GearsEngine::onMouseMove(const act::Context& context)
 {
-    m_mouse->setPosition(sf::Vector2i(context.event->mouseMove.x,
-                                      context.event->mouseMove.y));
+    m_mouse->moveEvent(sf::Vector2i(context.event->mouseMove.x,
+                                    context.event->mouseMove.y));
 }
 
 void GearsEngine::onMouseSelect(const act::Context& context)
@@ -228,17 +230,3 @@ void GearsEngine::onMouseScroll(const act::Context& context)
     m_viewPort->zoom(context.event->mouseWheelScroll.delta < 0 ? ge::ViewPort::ZOOM_OUT
                                                                : ge::ViewPort::ZOOM_IN);
 }
-
-sf::RenderWindow& GearsEngine::window() { return *m_window.get(); }
-
-ge::ViewPort& GearsEngine::view() { return *m_viewPort.get(); }
-
-ge::Mouse& GearsEngine::mouse() { return *m_mouse.get(); }
-
-ge::Settings& GearsEngine::settings() { return *m_settings.get(); }
-
-ge::ActionHandler& GearsEngine::actions() { return *m_actions.get(); }
-
-ge::World& GearsEngine::world() { return *m_world.get(); }
-
-tgui::Gui& GearsEngine::gui() { return *m_gui.get(); }
