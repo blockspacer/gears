@@ -5,10 +5,29 @@
 
 namespace ge {
 
+enum ZoomLevel
+{
+    ZOOM_HALF    = -1,
+    ZOOM_1X      = 0,
+    ZOOM_2X      = 1,
+    ZOOM_4X      = 2,
+    ZOOM_8X      = 3,
+    ZOOM_MIN     = -1,
+    ZOOM_DEFAULT = 1,
+    ZOOM_MAX     = 3
+};
+enum ZoomDirection
+{
+    ZOOM_OUT   = -1,
+    ZOOM_RESET = 0,
+    ZOOM_IN    = 1
+};
+
 class ViewPort : public sf::View
 {
 public:
-    ViewPort(sf::Vector2i size);
+    ViewPort(sf::Vector2i size = sf::Vector2i(),
+             sf::Vector2f pos  = sf::Vector2f());
 
     // update the ViewPort based on lock & pan & zoom
     void update();
@@ -34,23 +53,6 @@ public:
     void panBy(sf::Vector2f relativePosition);
 
     // ZOOMING
-    enum ZoomLevel
-    {
-        ZOOM_HALF    = -1,
-        ZOOM_1X      = 0,
-        ZOOM_2X      = 1,
-        ZOOM_4X      = 2,
-        ZOOM_8X      = 3,
-        ZOOM_MIN     = -1,
-        ZOOM_DEFAULT = 1,
-        ZOOM_MAX     = 3
-    };
-    enum ZoomDirection
-    {
-        ZOOM_OUT   = -1,
-        ZOOM_RESET = 0,
-        ZOOM_IN    = 1
-    };
 
     // zoom the view in the given direction
     void zoom(ZoomDirection zoomDirection);
@@ -69,6 +71,7 @@ private:
     float        m_zoomFactor; // the current zooming coefficent of the view
 
     sf::Vector2f m_viewDelta;       // vector of view position change in this frame
+    sf::Vector2f m_pixelOffset;     // helps achieve pixel perfection
     bool         m_viewLocked;      // true if view is locked for current frame
     bool         m_viewSizeChanged; // true if view was resized or zoomed in this frame
 };

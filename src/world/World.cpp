@@ -51,29 +51,37 @@ World::~World()
 
 void World::update(float dt)
 {
-    m_map.update(dt);
+    // Update everything in the correct order
 
-    anax::World::refresh();
+    m_map.update(dt); // The map and its tiles
 
-    m_movementSystem.update(dt);
+    anax::World::refresh(); // The entities of the world
 
-    m_selectionSystem.update();
+    m_movementSystem.update(dt); // How the entities move
+
+    m_selectionSystem.update(); // Select the entities
 }
 
 void World::render(sf::RenderTarget& rt)
 {
-    m_map.render(rt);
+    m_map.render(rt);  // render (pre-draw) the map
 }
 
 
 void World::draw(sf::RenderTarget& rt) const
 {
-    m_map.draw(rt);
+    // Draw everything on top of each other
 
-    m_renderingSystem.render(rt);
+    m_map.draw(rt); // The map and its tiles
 
-    m_selectionSystem.draw(rt);
+    m_renderingSystem.render(rt); // Entities of the world
+
+    m_selectionSystem.draw(rt); // Selection box
+
+    m_cursor.draw(rt); // The cursor
 }
+
+/// EVENTS
 
 void World::selectionEvent(const sf::Vector2f& pos)
 {
@@ -83,6 +91,11 @@ void World::selectionEvent(const sf::Vector2f& pos)
 void World::commandEvent(const sf::Vector2f& pos)
 {
     // TODO: Implement
+}
+
+void World::mouseMoveEvent(const sf::Vector2f& pos)
+{
+    m_cursor.setPosition(pos);
 }
 
 } // end ns

@@ -29,7 +29,8 @@ Map::Map()
             double val = m_perlinNoise.multiNoise2d((double)x * magick, (double)y * magick, 3);
             m_grid.back().push_back(std::make_unique<Tile>(
                 sf::Vector2i(x - m_bounds.left, y - m_bounds.top),
-                (val > 0.4) ? Tile::STONE : Tile::AIR, this));
+                (val > 0.4) ? Tile::STONE : Tile::AIR,
+                this));
             // m_grid.back().back()->setLightSource()
         }
     }

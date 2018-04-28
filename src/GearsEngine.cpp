@@ -159,9 +159,15 @@ void GearsEngine::draw()
 
 /// ACTION CALLBACKS
 
-void GearsEngine::onQuit() { m_window->close(); }
+void GearsEngine::onQuit()
+{
+    m_window->close();
+}
 
-void GearsEngine::onResize() { m_viewPort->resize(ge::toVec2i(m_window->getSize())); }
+void GearsEngine::onResize()
+{
+    m_viewPort->resize(ge::toVec2i(m_window->getSize()));
+}
 
 void GearsEngine::onEscape()
 {
@@ -204,8 +210,9 @@ void GearsEngine::onNav(ge::Direction direction)
 
 void GearsEngine::onMouseMove(const act::Context& context)
 {
-    m_mouse->moveEvent(sf::Vector2i(context.event->mouseMove.x,
-                                    context.event->mouseMove.y));
+    m_mouse->moveEvent(sf::Vector2i(context.event->mouseMove.x, context.event->mouseMove.y));
+
+    m_world->mouseMoveEvent(m_window->mapPixelToCoords(m_mouse->position()));
 }
 
 void GearsEngine::onMouseSelect(const act::Context& context)
@@ -227,6 +234,5 @@ void GearsEngine::onMousePan(const act::Context& context)
 
 void GearsEngine::onMouseScroll(const act::Context& context)
 {
-    m_viewPort->zoom(context.event->mouseWheelScroll.delta < 0 ? ge::ViewPort::ZOOM_OUT
-                                                               : ge::ViewPort::ZOOM_IN);
+    m_viewPort->zoom(context.event->mouseWheelScroll.delta < 0 ? ge::ZOOM_OUT : ge::ZOOM_IN);
 }

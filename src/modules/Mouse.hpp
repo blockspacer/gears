@@ -19,14 +19,12 @@ public:
     const bool          moved() const { return m_speed == 0; };
     const sf::Vector2i& position() const { return m_currPos; };
     const sf::Vector2i& delta() const { return m_delta; };
-    const sf::Vector2i& tile() const { return m_tile; };
 
 private:
     float        m_speed;    // speed of the mouse pointer
     sf::Vector2i m_currPos; // current position of mouse on screen
     sf::Vector2i m_lastPos;  // position in last frame
     sf::Vector2i m_delta;    // vector of mouse position change in this frame
-    sf::Vector2i m_tile;     // current tile under mouse
 };
 
 } // ge namespace
