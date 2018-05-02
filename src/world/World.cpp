@@ -64,7 +64,11 @@ void World::update(float dt)
 
 void World::render(sf::RenderTarget& rt)
 {
-    m_map.render(rt);  // render (pre-draw) the map
+    // Render everything to prepare drawing
+
+    m_map.render(rt); // render (pre-draw) the map
+
+    m_renderingSystem.render(rt); // Entities of the world
 }
 
 
@@ -73,8 +77,6 @@ void World::draw(sf::RenderTarget& rt) const
     // Draw everything on top of each other
 
     m_map.draw(rt); // The map and its tiles
-
-    m_renderingSystem.render(rt); // Entities of the world
 
     m_selectionSystem.draw(rt); // Selection box
 
