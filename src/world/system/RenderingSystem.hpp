@@ -22,5 +22,5 @@ struct RenderingSystem
     static const float c_healthBarOffset;
     static const float c_healthBarHeight;
 
-    void render(sf::RenderTarget& rt) const;
+    void draw(sf::RenderTarget& rt) const;
 };

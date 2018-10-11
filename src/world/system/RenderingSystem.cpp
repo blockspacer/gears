@@ -21,7 +21,7 @@ RenderingSystem::Renderables::Renderables()
     health.setOutlineColor(sf::Color::Transparent);
 }
 
-void RenderingSystem::render(sf::RenderTarget& rt) const
+void RenderingSystem::draw(sf::RenderTarget& rt) const
 {
     //TODO: Separate logic and drawing
 
