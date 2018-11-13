@@ -26,17 +26,17 @@ Tile::Tile(sf::Vector2i position, TileId tileId, Map* parent)
         m_tilemapRect = sf::IntRect(0, 0, 32, 32);
         break;
     case Tile::STONE:
-        m_color       = sf::Color::White;
+        m_color       = sf::Color(129, 135, 138);
         m_tilemapRect = sf::IntRect(96, 160, 32, 32);
         // m_tilemapRect = sf::IntRect( 16, 0, 16, 16 );
         break;
     case Tile::DIRT:
-        m_color       = sf::Color::White;
+        m_color       = sf::Color(155, 118, 83);
         m_tilemapRect = sf::IntRect(64, 96, 32, 32);
         // m_tilemapRect = sf::IntRect( 32, 0, 16, 16 );
         break;
     case Tile::GRASS:
-        m_color       = sf::Color::White;
+        m_color       = sf::Color(76, 145, 65);
         m_tilemapRect = sf::IntRect(96, 96, 32, 32);
         // m_tilemapRect = sf::IntRect( 0, 0, 16, 16 );
         break;
