@@ -1,0 +1,32 @@
+{
+    "Settings": [
+        {
+            "Name": "FullscreenMode",
+            "Value": true
+        },
+        {
+            "Name": "HardwareCursor",
+            "Value": true
+        },
+        {
+            "Name": "InvertMouseScroll",
+            "Value": false
+        },
+        {
+            "Name": "KeyboardScrollSpeed",
+            "Value": 1000
+        },
+        {
+            "Name": "MouseSpeed",
+            "Value": 1.0
+        },
+        {
+            "Name": "ScreenResolution",
+            "Value": "1440x900x32"
+        },
+        {
+            "Name": "VerticalSync",
+            "Value": true
+        },
+    ]
+}

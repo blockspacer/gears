@@ -1,0 +1,16 @@
+{
+    "hotkeys": [
+        {
+            "name": "Dig Tool",
+            "primary": {
+                "key": "1"
+            }
+        },
+        {
+            "name": "Build Tool",
+            "primary": {
+                "key": "2"
+            }
+        }
+    ]
+}
