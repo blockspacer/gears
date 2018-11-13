@@ -99,7 +99,7 @@ void GearsEngine::resetFrame()
     m_mouse->reset();
 
     // clear events from last frame
-    m_actions->map().clearEvents();
+    m_actions->clearEvents();
 }
 
 void GearsEngine::handleEvents()
@@ -110,12 +110,12 @@ void GearsEngine::handleEvents()
         // give event to the gui first
         if(!m_gui->handleEvent(event)) {
             // if event falls through gui forward to the Thor ActionMap
-            m_actions->map().pushEvent(event);
+            m_actions->pushEvent(event);
         }
     }
 
     // invoke Thor Actions
-    m_actions->map().invokeCallbacks(m_actions->system(), m_window.get());
+    m_actions->invokeCallbacks(m_window.get());
 }
 
 void GearsEngine::update()

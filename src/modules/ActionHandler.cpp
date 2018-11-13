@@ -60,11 +60,11 @@ ActionHandler::ActionHandler()
 
     /// MOUSE NAVIGATION
 
-    m_actions[act::MouseMove]       = Action(Event::MouseMoved);
-    m_actions[act::MouseSelect]     = Action(sf::Mouse::Left);
-    m_actions[act::MouseCommand]    = Action(sf::Mouse::Right);
-    m_actions[act::MousePan]        = Action(sf::Mouse::Right) && m_actions[act::MouseMove];
-    m_actions[act::MouseScroll]     = Action(Event::MouseWheelScrolled);
+    m_actions[act::MouseMove]    = Action(Event::MouseMoved);
+    m_actions[act::MouseSelect]  = Action(sf::Mouse::Left);
+    m_actions[act::MouseCommand] = Action(sf::Mouse::Right);
+    m_actions[act::MousePan]     = Action(sf::Mouse::Right) && m_actions[act::MouseMove];
+    m_actions[act::MouseScroll]  = Action(Event::MouseWheelScrolled);
 
     m_events.connect(act::MouseMove,
                      [](const act::Context& context) { GE_INST.onMouseMove(context); });
@@ -83,14 +83,19 @@ ActionHandler::~ActionHandler()
 {
 }
 
-thor::ActionMap<act::Id>& ActionHandler::map()
+void ActionHandler::clearEvents()
 {
-    return m_actions;
+    m_actions.clearEvents();
 }
 
-thor::ActionMap<act::Id>::CallbackSystem& ActionHandler::system()
+void ActionHandler::pushEvent(const sf::Event& event)
 {
-    return m_events;
+    m_actions.pushEvent(event);
+}
+
+void ActionHandler::invokeCallbacks(sf::Window* window)
+{
+    m_actions.invokeCallbacks(m_events, window);
 }
 
 void ActionHandler::updateHotkey(ge::HotkeyId id, ge::HotkeyPair keys)
@@ -105,4 +110,4 @@ void ActionHandler::updateHotkey(ge::HotkeyId id, ge::HotkeyPair keys)
     m_keyMap[id] = toAction(keys, type);
 }
 
-} //end namesapce
+} // namespace ge

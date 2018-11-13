@@ -39,8 +39,10 @@ public:
     ActionHandler();
     ~ActionHandler();
 
-    thor::ActionMap<act::Id>&                 map();
-    thor::ActionMap<act::Id>::CallbackSystem& system();
+    void clearEvents();
+    void pushEvent(const sf::Event& event);
+
+    void invokeCallbacks(sf::Window* window);
 
 private:
     void updateHotkey(ge::HotkeyId id, ge::HotkeyPair keys);
