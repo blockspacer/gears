@@ -28,6 +28,7 @@ void GearsEngine::initialize()
 
     /// INIT GAME COMPONENTS
     // order is important
+    m_lua      = std::make_unique<sol::state>();
     m_settings = std::make_unique<ge::Settings>();
     m_actions  = std::make_unique<ge::ActionHandler>();
     m_window   = std::make_unique<sf::RenderWindow>(VideoMode(800, 600), "Gears");

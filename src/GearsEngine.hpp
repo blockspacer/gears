@@ -8,6 +8,8 @@
 #include "modules/ViewPort.hpp"
 #include "world/World.hpp"
 
+#include "include/sol.hpp"
+
 #include <SFML/Graphics.hpp>
 #include <TGUI/Gui.hpp>
 
@@ -77,7 +79,7 @@ private:
     sf::Clock m_frameClock; //!< Clock for keeping track of frame length
     float     m_dt;         //!< Time since last frame
 
-    /// GAME MODULES
+    /// MODULES
 
     /// Main Window of the application
     std::unique_ptr<sf::RenderWindow> m_window;
@@ -99,6 +101,9 @@ private:
 
     /// The GUI based on the TGUI lib
     std::unique_ptr<tgui::Gui> m_gui;
+
+    /// The lua state
+    std::unique_ptr<sol::state> m_lua;
 
     // Cursorshade
     //sf::RectangleShape m_cursorShade; // rectangle for highlighing tile under cursor
