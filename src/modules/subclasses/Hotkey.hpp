@@ -37,7 +37,7 @@ struct Hotkey
     }
 };
 
-inline bool operator==(const Hotkey lho, const Hotkey rho)
+inline bool operator==(const Hotkey& lho, const Hotkey& rho)
 {
     return lho.key == rho.key &&
            lho.ctrl == rho.ctrl &&
