@@ -4,7 +4,7 @@
 solution "gears"
     configurations { "Debug", "Release" }
 
-    buildoptions { "-std=c++14" }
+    buildoptions { "-std=c++17" }
 
     -- A project defines one build target
     project "gears"
@@ -18,7 +18,12 @@ solution "gears"
         pchheader "src/stdafx.hpp"
         pchsource "src/stdafx.cpp"
 
-        includedirs {"src/"}
+        includedirs
+        {
+            "src/",
+            "include/",
+            "/usr/include/lua5.3"
+        }
 
         links
         {
@@ -36,7 +41,10 @@ solution "gears"
             "tgui",
 
             --anax
-            "anax"
+            "anax",
+
+            --lua
+            "lua5.3"
         }
 
         configuration "Debug"

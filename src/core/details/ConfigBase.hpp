@@ -1,7 +1,7 @@
 #ifndef CONFIGBASE_HPP
 #define CONFIGBASE_HPP
 
-#include "include/Property.hpp"
+#include "stuff/Property.hpp"
 #include "misc/textconvert.hpp"
 
 #include <string>

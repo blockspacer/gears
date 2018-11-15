@@ -1,7 +1,7 @@
 #ifndef TEXTCONVERT_HPP
 #define TEXTCONVERT_HPP
 
-#include "modules/subclasses/Hotkey.hpp"
+#include "core/details/Hotkey.hpp"
 
 #include <SFML/Window.hpp>
 

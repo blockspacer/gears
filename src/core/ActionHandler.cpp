@@ -1,7 +1,8 @@
 #include "ActionHandler.hpp"
-#include "GearsEngine.hpp"
-#include "misc/conversions.hpp"
 #include "stdafx.hpp"
+
+#include "core/GearsEngine.hpp"
+#include "misc/conversions.hpp"
 
 namespace ge {
 

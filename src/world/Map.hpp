@@ -4,7 +4,7 @@
 #include "MapRenderer.hpp"
 #include "Tile.hpp"
 
-#include "include/PerlinNoise.hpp"
+#include "stuff/PerlinNoise.hpp"
 
 #include <vector>
 
@@ -16,7 +16,6 @@ public:
     Map();
     ~Map();
 
-    void save();
 
     // update map
     void update(float dt);

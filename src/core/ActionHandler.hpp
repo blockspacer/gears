@@ -1,11 +1,10 @@
 #pragma once
 
-#include "subclasses/Hotkey.hpp"
+#include "details/Hotkey.hpp"
 #include "misc/declarations.hpp"
 
 #include <Thor/Input.hpp>
 #include <set>
-
 
 namespace act {
 enum Id
@@ -29,9 +28,11 @@ enum Id
 };
 
 typedef thor::ActionContext<act::Id> Context;
-}
+} // namespace act
 
 namespace ge {
+
+class GearsEngine;
 
 class ActionHandler
 {
@@ -54,4 +55,4 @@ private:
     thor::ActionMap<act::Id>::CallbackSystem m_events;
 };
 
-} // end namespace: ge
+} // namespace ge

@@ -90,4 +90,4 @@ void Map::provideTile(int x, int y, int layer, Color& color, IntRect& src)
 }
 
 
-} //end ns
+} // namespace ge

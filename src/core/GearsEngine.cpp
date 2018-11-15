@@ -6,6 +6,8 @@
 #include <iostream>
 #include <memory>
 
+namespace ge {
+
 using namespace sf;
 
 std::unique_ptr<GearsEngine> GearsEngine::s_instance = std::make_unique<GearsEngine>();
@@ -237,3 +239,5 @@ void GearsEngine::onMouseScroll(const act::Context& context)
 {
     m_viewPort->zoom(context.event->mouseWheelScroll.delta < 0 ? ge::ZOOM_OUT : ge::ZOOM_IN);
 }
+
+} //namespace ge

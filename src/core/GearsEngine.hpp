@@ -2,20 +2,22 @@
 #define GEARSAPP_HPP
 
 #include "misc/declarations.hpp"
-#include "modules/ActionHandler.hpp"
-#include "modules/Mouse.hpp"
-#include "modules/Settings.hpp"
-#include "modules/ViewPort.hpp"
+#include "core/ActionHandler.hpp"
+#include "core/Mouse.hpp"
+#include "core/Settings.hpp"
+#include "core/ViewPort.hpp"
 #include "world/World.hpp"
 
-#include "include/sol.hpp"
+#include "sol/sol.hpp"
 
 #include <SFML/Graphics.hpp>
 #include <TGUI/Gui.hpp>
 
 #include <memory>
 
-#define GE_INST GearsEngine::instance()
+#define GE_INST ge::GearsEngine::instance()
+
+namespace ge {
 
 class GearsEngine
 {
@@ -23,10 +25,10 @@ public:
     /// get the global instance of the engine
     static GearsEngine& instance();
 
-    /// Initialize the Gears Engine
+    /// Init Engine
     void initialize();
 
-    /// Run the Gears Engine
+    /// Run Engine
     void run();
 
 protected:
@@ -109,5 +111,7 @@ private:
     //sf::RectangleShape m_cursorShade; // rectangle for highlighing tile under cursor
 
 };
+
+} // namespace ge
 
 #endif //GEARSAPP_HPP

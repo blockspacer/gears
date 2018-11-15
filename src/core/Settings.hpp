@@ -1,10 +1,10 @@
 #ifndef MKSETTINGS_H
 #define MKSETTINGS_H
 
-#include "include/SettingsParser.hpp"
-#include "subclasses/Config.hpp"
-#include "subclasses/Hotkey.hpp"
-#include "subclasses/HotkeyConfig.hpp"
+#include "stuff/SettingsParser.hpp"
+#include "details/Config.hpp"
+#include "details/Hotkey.hpp"
+#include "details/HotkeyConfig.hpp"
 
 #include <TGUI/TGUI.hpp>
 #include <Thor/Input.hpp>
