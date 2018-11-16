@@ -36,3 +36,6 @@ Makefile
 # VS code files
 .vscode
 *.code-workspace
+
+# include dir (only contains links)
+include
