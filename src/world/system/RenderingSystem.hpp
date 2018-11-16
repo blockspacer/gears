@@ -2,11 +2,17 @@
 
 #include "world/components/BasicComponents.hpp"
 
-#include <anax/System.hpp>
+#include <entt/entity/registry.hpp>
 
-struct RenderingSystem
-    : anax::System<anax::Requires<cmp::Position, cmp::Sprite>>
+class RenderingSystem
 {
+public:
+    RenderingSystem(entt::DefaultRegistry& parentRegistry);
+
+    void draw(sf::RenderTarget& rt) const;
+
+private:
+    entt::DefaultRegistry& m_registry;
 
     struct Renderables
     {
@@ -21,6 +27,4 @@ struct RenderingSystem
 
     static const float c_healthBarOffset;
     static const float c_healthBarHeight;
-
-    void draw(sf::RenderTarget& rt) const;
 };

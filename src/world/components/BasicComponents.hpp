@@ -1,14 +1,14 @@
 #ifndef BASICCOMPONENTS_HPP
 #define BASICCOMPONENTS_HPP
 
-#include <anax/Entity.hpp>
+#include <entt/entity/registry.hpp>
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
 namespace cmp {
 
-struct Position : anax::Component
+struct Position
 {
     Position(sf::Vector2f position = sf::Vector2f(0.f, 0.f))
         : vec(position) {}
@@ -19,7 +19,7 @@ struct Position : anax::Component
     sf::Vector2f vec;
 };
 
-struct Velocity : anax::Component
+struct Velocity
 {
     Velocity(sf::Vector2f velocity = sf::Vector2f(0.f, 0.f))
         : vec(velocity) {}
@@ -30,18 +30,18 @@ struct Velocity : anax::Component
     sf::Vector2f vec;
 };
 
-struct Body : anax::Component
+struct Body
 {
     Body(sf::Vector2u bodySize = sf::Vector2u(0, 0))
         : size(bodySize) {}
 
-    Body(size_t x, size_t y)
+    Body(std::size_t x, std::size_t y)
         : size(x, y) {}
 
     sf::Vector2u size;
 };
 
-struct Sprite : anax::Component
+struct Sprite
 {
     Sprite(const sf::Sprite& sprite = sf::Sprite())
         : sprite(sprite) {}
@@ -49,7 +49,7 @@ struct Sprite : anax::Component
     sf::Sprite sprite;
 };
 
-struct Health : anax::Component
+struct Health
 {
     Health(sf::Uint32 health = 1)
         : max(health), current(health) {}
@@ -63,35 +63,35 @@ struct Health : anax::Component
     float getRatio() { return static_cast<float>(current) / static_cast<float>(max); };
 };
 
-struct Selectable : anax::Component
+struct Selectable
 {
 };
 
-struct Selected : anax::Component
+struct Selected
 {
 };
 
-struct Container : anax::Component
+struct Container
 {
-    Container(size_t size = 1)
+    Container(std::size_t size = 1)
     {
         setSize(size);
     }
 
-    void setSize(size_t size)
+    void setSize(std::size_t size)
     {
         if(size > contents.size()) {
             contents.reserve(size);
-            contents.resize(size, nullptr);
+            contents.resize(size);
         } else if(size < contents.size()) {
             contents.resize(size);
             contents.shrink_to_fit();
         }
     }
 
-    std::vector<anax::Entity*> contents;
+    std::vector<entt::DefaultRegistry::entity_type> contents;
 };
 
-} // end ns
+} // namespace cmp
 
 #endif //BASICCOMPONENTS_HPP

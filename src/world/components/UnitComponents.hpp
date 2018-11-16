@@ -1,18 +1,18 @@
 #ifndef UNITCOMPONETS_HPP
 #define UNITCOMPONETS_HPP
 
-#include "BasicComponents.hpp"
+#include <entt/entity/registry.hpp>
 
 namespace cmp {
 
-struct Unit : anax::Component
+struct Unit
 {
     std::bitset<8> flags;
 
-    anax::Entity* owner;
+    entt::DefaultRegistry::entity_type owningPlayer;
 };
 
-struct Name : anax::Component
+struct Name
 {
     Name(sf::String givenName = "", sf::String familyName = "")
         : given(givenName), family(familyName) {}
@@ -40,32 +40,32 @@ struct Equipment : Container
 
 struct Inventory : Container
 {
-    Inventory(size_t size = 1)
+    Inventory(std::size_t size = 1)
         : Container(size) {}
 };
 
 struct Rideable : Container
 {
-    Rideable(size_t size = 1)
+    Rideable(std::size_t size = 1)
         : Container(size) {}
 };
 
-struct Riding : anax::Component
+struct Riding
 {
-    anax::Entity* mount = nullptr;
+    entt::DefaultRegistry::entity_type mount;
 };
 
-struct Driving : anax::Component
+struct Driving
 {
-    anax::Entity* vehicle = nullptr;
+    entt::DefaultRegistry::entity_type vehicle;
 };
 
-struct AI : anax::Component
+struct AI
 {
     //AiScript* script;
 };
 
-struct Order : anax::Component
+struct Order
 {
     enum OrderId
     {

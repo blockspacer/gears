@@ -1,13 +1,13 @@
 #ifndef ITEMCOMPONENTS_HPP
 #define ITEMCOMPONENTS_HPP
 
-#include <anax/Entity.hpp>
+#include <entt/entity/registry.hpp>
 
 #include <SFML/System.hpp>
 
 namespace cmp {
 
-struct Item : anax::Component
+struct Item
 {
     Item(sf::Uint32 id)
         : itemId(id) {}
@@ -15,22 +15,22 @@ struct Item : anax::Component
     sf::Uint32 itemId;
 };
 
-struct Stored : anax::Component
+struct Stored
 {
-    anax::Entity* storage = nullptr;
+    entt::DefaultRegistry::entity_type storage;
 };
 
-struct Equipped : anax::Component
+struct Equipped
 {
-    anax::Entity* owner = nullptr;
+    entt::DefaultRegistry::entity_type owner;
 };
 
-struct Equippable : anax::Component
+struct Equippable
 {
     sf::Uint8 onSlots;
 };
 
-struct Stackable : anax::Component
+struct Stackable
 {
     Stackable(sf::Uint8 amount, sf::Uint8 limit)
         : stackAmount(amount)
@@ -40,18 +40,18 @@ struct Stackable : anax::Component
     sf::Uint8 stackLimit  = 1;
 };
 
-struct Useable : anax::Component
+struct Useable
 {
     sf::Uint8 useTime;
     sf::Uint8 coolDown;
 };
 
-struct Tool : anax::Component
+struct Tool
 {
     sf::Uint8 toolId;
 };
 
-struct Weapon : anax::Component
+struct Weapon
 {
     sf::Uint16 baseDamage;
     sf::Uint8  damageType;

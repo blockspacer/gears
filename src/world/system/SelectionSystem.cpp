@@ -2,7 +2,9 @@
 
 #include "stdafx.hpp"
 
-SelectionSystem::SelectionSystem()
+
+SelectionSystem::SelectionSystem(entt::DefaultRegistry& parentRegistry)
+    : m_registry(parentRegistry)
 {
     // set selection rectangle properties
     m_renderable.setFillColor(sf::Color::Transparent);
@@ -67,19 +69,19 @@ void SelectionSystem::select(sf::FloatRect selectionRect)
     if(selectionRect.height == 0)
         selectionRect.height++;
 
-    auto entities = getEntities();
-    for(auto entity : entities) {
+    auto view = m_registry.view<cmp::Selectable, cmp::Position, cmp::Body>();
+    for(auto entity : view) {
         // Get the needed components
-        auto& posComp  = entity.getComponent<cmp::Position>();
-        auto& bodyComp = entity.getComponent<cmp::Body>();
+        auto& pos  = view.get<cmp::Position>(entity);
+        auto& body = view.get<cmp::Body>(entity);
 
         // Calculate Body rectangle
-        auto bodyRect = sf::FloatRect(posComp.vec, ge::toVec2f(bodyComp.size));
+        auto bodyRect = sf::FloatRect(pos.vec, ge::toVec2f(body.size));
 
         if(selectionRect.intersects(bodyRect)) {
-            entity.addComponent<cmp::Selected>();
+            m_registry.accommodate<cmp::Selected>(entity);
         } else {
-            entity.removeComponent<cmp::Selected>();
+            m_registry.reset<cmp::Selected>(entity);
         }
     }
 }

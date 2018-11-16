@@ -1,16 +1,14 @@
-
+#pragma once
 
 #include "misc/conversions.hpp"
 #include "world/components/BasicComponents.hpp"
 
-#include <anax/System.hpp>
+#include <entt/entity/registry.hpp>
 
-
-struct SelectionSystem
-    : anax::System<anax::Requires<cmp::Selectable, cmp::Position, cmp::Body>>
+class SelectionSystem
 {
-
-    SelectionSystem();
+public:
+    SelectionSystem(entt::DefaultRegistry& parentRegistry);
 
     void update();
 
@@ -20,6 +18,8 @@ struct SelectionSystem
 
     void select(sf::FloatRect selectionRect);
 
+private:
+    entt::DefaultRegistry& m_registry; // parent regitrsy
 
     bool          m_selecting;         // if a selection is being made
     bool          m_mouseselect;       // if there was mouse selection since last frame

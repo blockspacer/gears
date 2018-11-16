@@ -8,15 +8,18 @@
 #include "system/RenderingSystem.hpp"
 #include "system/SelectionSystem.hpp"
 
-#include <anax/World.hpp>
+#include <entt/entity/registry.hpp>
 
 namespace ge {
 
-class World : public anax::World
+class World
 {
 public:
     World();
     ~World();
+
+    void saveTo(const sf::String& fileName);
+    void loadFrom(const sf::String& fileName);
 
     void update(float dt);
     void render(sf::RenderTarget& rt);
@@ -27,9 +30,13 @@ public:
     void mouseMoveEvent(const sf::Vector2f& pos);
 
 private:
+    sf::String m_worldName;
+
     Map m_map;
 
     Cursor m_cursor;
+
+    entt::DefaultRegistry m_registry;
 
     MovementSystem  m_movementSystem;
     RenderingSystem m_renderingSystem;

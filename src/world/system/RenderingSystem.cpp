@@ -21,46 +21,49 @@ RenderingSystem::Renderables::Renderables()
     health.setOutlineColor(sf::Color::Transparent);
 }
 
+RenderingSystem::RenderingSystem(entt::DefaultRegistry& parentRegistry)
+    : m_registry(parentRegistry) {}
+
 void RenderingSystem::draw(sf::RenderTarget& rt) const
 {
     //TODO: Separate logic and drawing
 
-    auto entities = getEntities();
-    for(auto entity : entities) {
+    auto view = m_registry.view<cmp::Position, cmp::Sprite>();
+    for(auto entity : view) {
         // Get the components needed
-        auto const& posCmp    = entity.getComponent<cmp::Position>();
-        auto&       spriteCmp = entity.getComponent<cmp::Sprite>();
+        auto const& pos    = view.get<cmp::Position>(entity);
+        auto&       sprite = view.get<cmp::Sprite>(entity);
 
         // Move sprite where it will be drawn
-        spriteCmp.sprite.setPosition(posCmp.vec);
+        sprite.sprite.setPosition(pos.vec);
 
         // Get sprite bounds
-        auto const& spriteRect = spriteCmp.sprite.getGlobalBounds();
+        auto const& spriteRect = sprite.sprite.getGlobalBounds();
         auto const  viewRect   = sf::FloatRect(rt.getView().getCenter() - rt.getView().getSize() / 2.f, rt.getView().getSize());
 
         // Continue only if sprite is on screen
         if(spriteRect.intersects(viewRect)) {
             // Draw sprite
-            rt.draw(spriteCmp.sprite);
+            rt.draw(sprite.sprite);
 
-            if(entity.hasComponent<cmp::Selected>()) {
+            if(m_registry.has<cmp::Selected>(entity)) {
                 // Draw Selection Box
                 auto& selectionBox = s_renderables.selectionBox;
-                selectionBox.setPosition(posCmp.vec);
+                selectionBox.setPosition(pos.vec);
                 selectionBox.setSize(sf::Vector2f(spriteRect.width, spriteRect.height));
                 rt.draw(selectionBox);
 
-                if(entity.hasComponent<cmp::Health>()) {
+                if(m_registry.has<cmp::Health>(entity)) {
                     // Draw Health bar frame
                     auto& healthBar = s_renderables.healthBar;
-                    healthBar.setPosition(posCmp.vec + sf::Vector2f(0, spriteRect.height + c_healthBarOffset));
+                    healthBar.setPosition(pos.vec + sf::Vector2f(0, spriteRect.height + c_healthBarOffset));
                     healthBar.setSize(sf::Vector2f(spriteRect.width, c_healthBarHeight));
                     rt.draw(healthBar);
 
                     // Draw Health amount
-                    auto& healthCmp = entity.getComponent<cmp::Health>();
+                    auto& healthCmp = m_registry.get<cmp::Health>(entity);
                     auto& health    = s_renderables.health;
-                    health.setPosition(posCmp.vec + sf::Vector2f(0, spriteRect.height + c_healthBarOffset));
+                    health.setPosition(pos.vec + sf::Vector2f(0, spriteRect.height + c_healthBarOffset));
                     health.setSize(sf::Vector2f(spriteRect.width * healthCmp.getRatio(), c_healthBarHeight));
                     rt.draw(health);
                 }
