@@ -1,7 +1,7 @@
 #pragma once
 
 #include "misc/conversions.hpp"
-#include "world/components/BasicComponents.hpp"
+#include "world/components/Components.hpp"
 
 #include <entt/entity/registry.hpp>
 

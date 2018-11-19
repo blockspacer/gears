@@ -42,7 +42,7 @@ World::World()
     p.set<cmp::Inventory>(4u);
     p.set<cmp::Selectable>();
 
-    for(int i = 0; i < 100000; ++i) {
+    for(int i = 0; i < 42000; ++i) {
         auto e = p.create();
         m_registry.replace<cmp::Health>(e, 100u, std::rand() % 100 + 1);
         m_registry.replace<cmp::Position>(e, std::rand() % (200 * 16) - 100 * 16, std::rand() % (200 * 16) - 100 * 16);
@@ -70,9 +70,9 @@ void World::saveTo(const sf::String& fileName)
     */
 
     // open file for binary output
-    //f.open(fileName, std::ios::out | std::ios::app | std::ios::binary);
-    //cereal::BinaryOutputArchive output{f};
-    //m_registry.snapshot().entities(output).destroyed(output).component<cmp::Unit, cmp::Body, cmp::Sprite, cmp::Health, cmp::Position, cmp::Velocity, cmp::Equipment, cmp::Inventory, cmp::Selectable>(output);
+    f.open(fileName, std::ios::out | std::ios::app | std::ios::binary);
+    cereal::BinaryOutputArchive output{f};
+    m_registry.snapshot().entities(output).destroyed(output)/*.component<cmp::Unit, cmp::Body, cmp::Sprite, cmp::Health, cmp::Position, cmp::Velocity, cmp::Equipment, cmp::Inventory, cmp::Selectable>(output)*/;
 }
 void World::loadFrom(const sf::String& fileName)
 {
@@ -86,9 +86,9 @@ void World::loadFrom(const sf::String& fileName)
     f.close()
     */
 
-    //f.open(fileName, std::ios::binary);
-    //cereal::BinaryInputArchive input{f};
-    //m_registry.snapshot().entities(input).destroyed(input).component<cmp::Unit, cmp::Body, cmp::Sprite, cmp::Health, cmp::Position, cmp::Velocity, cmp::Equipment, cmp::Inventory, cmp::Selectable>(input);
+    f.open(fileName, std::ios::in | std::ios::binary);
+    cereal::BinaryInputArchive input{f};
+    m_registry.restore().entities(input).destroyed(input)/*.component<cmp::Unit, cmp::Body, cmp::Sprite, cmp::Health, cmp::Position, cmp::Velocity, cmp::Equipment, cmp::Inventory, cmp::Selectable>(input)*/;
 }
 
 void World::update(float dt)

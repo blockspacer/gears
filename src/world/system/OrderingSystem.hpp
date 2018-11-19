@@ -1,6 +1,6 @@
 #pragma once
 
-#include "world/components/BasicComponents.hpp"
+#include "world/components/Components.hpp"
 
 struct OrderingSystem
 {

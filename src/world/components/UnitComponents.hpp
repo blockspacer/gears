@@ -1,7 +1,12 @@
 #ifndef UNITCOMPONETS_HPP
 #define UNITCOMPONETS_HPP
 
+#include "BasicComponents.hpp"
+
 #include <entt/entity/registry.hpp>
+
+#include <cereal/types/bitset.hpp>
+#include <cereal/types/string.hpp>
 
 namespace cmp {
 
@@ -10,15 +15,32 @@ struct Unit
     std::bitset<8> flags;
 
     entt::DefaultRegistry::entity_type owningPlayer;
+
+    template <class Archive>
+    void serialize(Archive& archive)
+    {
+        archive(flags, owningPlayer);
+    }
 };
 
-struct Name
+struct Health
 {
-    Name(sf::String givenName = "", sf::String familyName = "")
-        : given(givenName), family(familyName) {}
+    Health(sf::Uint32 health = 1)
+        : max(health), current(health) {}
 
-    sf::String given;
-    sf::String family;
+    Health(sf::Uint32 maxHealth, sf::Uint32 currentHealth)
+        : max(maxHealth), current(currentHealth) {}
+
+    sf::Uint32 max;
+    sf::Uint32 current;
+
+    float getRatio() { return static_cast<float>(current) / static_cast<float>(max); };
+
+    template <class Archive>
+    void serialize(Archive& archive)
+    {
+        archive(max, current);
+    }
 };
 
 struct Equipment : Container
@@ -50,14 +72,12 @@ struct Rideable : Container
         : Container(size) {}
 };
 
-struct Riding
+struct Riding : SingleReference
 {
-    entt::DefaultRegistry::entity_type mount;
 };
 
-struct Driving
+struct Driving : SingleReference
 {
-    entt::DefaultRegistry::entity_type vehicle;
 };
 
 struct AI
@@ -80,6 +100,12 @@ struct Order
         : orderId(id) {}
 
     OrderId orderId;
+
+    template <class Archive>
+    void serialize(Archive& archive)
+    {
+        archive(orderId);
+    }
 };
 
 struct OrderMoveTo : Order
@@ -91,8 +117,14 @@ struct OrderMoveTo : Order
     }
 
     sf::Vector2f target;
+
+    template <class Archive>
+    void serialize(Archive& archive)
+    {
+        archive(orderId, target.x, target.y);
+    }
 };
 
-} // end ns
+} // namespace cmp
 
 #endif //UNITCOMPONETS_HPP

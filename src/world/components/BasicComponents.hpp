@@ -1,12 +1,31 @@
 #ifndef BASICCOMPONENTS_HPP
 #define BASICCOMPONENTS_HPP
 
-#include <entt/entity/registry.hpp>
-
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
+#include <entt/entity/registry.hpp>
+
+#include <cereal/types/string.hpp>
+#include <cereal/types/vector.hpp>
+
 namespace cmp {
+
+struct Name
+{
+    Name(sf::String name, sf::String namePrefix = "", sf::String nameSuffix = "")
+        : name(name), prefix(namePrefix), suffix(nameSuffix) {}
+
+    sf::String name;
+    sf::String prefix;
+    sf::String suffix;
+
+    template <class Archive>
+    void serialize(Archive& archive)
+    {
+        archive(prefix, name, suffix);
+    }
+};
 
 struct Position
 {
@@ -17,6 +36,12 @@ struct Position
         : vec(x, y) {}
 
     sf::Vector2f vec;
+
+    template <class Archive>
+    void serialize(Archive& archive)
+    {
+        archive(vec.x, vec.y);
+    }
 };
 
 struct Velocity
@@ -28,6 +53,12 @@ struct Velocity
         : vec(x, y) {}
 
     sf::Vector2f vec;
+
+    template <class Archive>
+    void serialize(Archive& archive)
+    {
+        archive(vec.x, vec.y);
+    }
 };
 
 struct Body
@@ -39,6 +70,12 @@ struct Body
         : size(x, y) {}
 
     sf::Vector2u size;
+
+    template <class Archive>
+    void serialize(Archive& archive)
+    {
+        archive(size.x, size.y);
+    }
 };
 
 struct Sprite
@@ -46,29 +83,14 @@ struct Sprite
     Sprite(const sf::Sprite& sprite = sf::Sprite())
         : sprite(sprite) {}
 
+    sf::String spriteId;
     sf::Sprite sprite;
-};
 
-struct Health
-{
-    Health(sf::Uint32 health = 1)
-        : max(health), current(health) {}
-
-    Health(sf::Uint32 maxHealth, sf::Uint32 currentHealth)
-        : max(maxHealth), current(currentHealth) {}
-
-    sf::Uint32 max;
-    sf::Uint32 current;
-
-    float getRatio() { return static_cast<float>(current) / static_cast<float>(max); };
-};
-
-struct Selectable
-{
-};
-
-struct Selected
-{
+    template <class Archive>
+    void serialize(Archive& archive)
+    {
+        archive(spriteId);
+    }
 };
 
 struct Container
@@ -90,6 +112,34 @@ struct Container
     }
 
     std::vector<entt::DefaultRegistry::entity_type> contents;
+
+    template <class Archive>
+    void serialize(Archive& archive)
+    {
+        archive(contents);
+    }
+};
+
+struct SingleReference
+{
+    SingleReference(entt::DefaultRegistry::entity_type referredEntity)
+        : entity(referredEntity) {}
+
+    entt::DefaultRegistry::entity_type entity;
+
+    template <class Archive>
+    void serialize(Archive& archive)
+    {
+        archive(entity);
+    }
+};
+
+struct Selectable
+{
+};
+
+struct Selected
+{
 };
 
 } // namespace cmp

@@ -1,9 +1,11 @@
 #ifndef ITEMCOMPONENTS_HPP
 #define ITEMCOMPONENTS_HPP
 
-#include <entt/entity/registry.hpp>
+#include "BasicComponents.hpp"
 
 #include <SFML/System.hpp>
+
+#include <entt/entity/registry.hpp>
 
 namespace cmp {
 
@@ -13,21 +15,31 @@ struct Item
         : itemId(id) {}
 
     sf::Uint32 itemId;
+
+    template <class Archive>
+    void serialize(Archive& archive)
+    {
+        archive(itemId);
+    }
 };
 
-struct Stored
+struct Stored : SingleReference
 {
-    entt::DefaultRegistry::entity_type storage;
 };
 
-struct Equipped
+struct Equipped : SingleReference
 {
-    entt::DefaultRegistry::entity_type owner;
 };
 
 struct Equippable
 {
     sf::Uint8 onSlots;
+
+    template <class Archive>
+    void serialize(Archive& archive)
+    {
+        archive(onSlots);
+    }
 };
 
 struct Stackable
@@ -38,6 +50,12 @@ struct Stackable
 
     sf::Uint8 stackAmount = 1;
     sf::Uint8 stackLimit  = 1;
+
+    template <class Archive>
+    void serialize(Archive& archive)
+    {
+        archive(stackAmount, stackLimit);
+    }
 };
 
 struct Useable
@@ -72,6 +90,6 @@ struct MagicWeapon : Weapon
     sf::Uint8 manaCost;
 };
 
-} // end ns
+} // namespace cmp
 
 #endif //ITEMCOMPONENTS_HPP
