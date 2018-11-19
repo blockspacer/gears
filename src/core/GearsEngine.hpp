@@ -1,11 +1,11 @@
 #ifndef GEARSAPP_HPP
 #define GEARSAPP_HPP
 
-#include "misc/declarations.hpp"
 #include "core/ActionHandler.hpp"
 #include "core/Mouse.hpp"
 #include "core/Settings.hpp"
 #include "core/ViewPort.hpp"
+#include "misc/declarations.hpp"
 #include "world/World.hpp"
 
 #include "sol/sol.hpp"
@@ -104,12 +104,8 @@ private:
     /// The GUI based on the TGUI lib
     std::unique_ptr<tgui::Gui> m_gui;
 
-    /// The lua state
-    std::unique_ptr<sol::state> m_lua;
-
     // Cursorshade
     //sf::RectangleShape m_cursorShade; // rectangle for highlighing tile under cursor
-
 };
 
 } // namespace ge

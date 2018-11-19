@@ -11,6 +11,20 @@
 
 namespace cmp {
 
+struct Prototype
+{
+    Prototype(sf::String id)
+        : id(id) {}
+
+    sf::String id;
+
+    template <class Archive>
+    void serialize(Archive& archive)
+    {
+        archive(id);
+    }
+};
+
 struct Name
 {
     Name(sf::String name, sf::String namePrefix = "", sf::String nameSuffix = "")

@@ -1,8 +1,9 @@
 #include "World.hpp"
 #include "stdafx.hpp"
 
-#include "components/BasicComponents.hpp"
-#include "components/UnitComponents.hpp"
+#include "LuaParser.hpp"
+
+#include "components/Components.hpp"
 
 #include <cereal/archives/binary.hpp>
 
@@ -14,12 +15,19 @@
 namespace ge {
 
 World::World()
-    : m_map()
+    : m_lua()
+    , m_map()
     , m_registry(entt::DefaultRegistry{})
     , m_movementSystem(m_registry)
     , m_renderingSystem(m_registry)
     , m_selectionSystem(m_registry)
 {
+    // init lua
+    m_lua.open_libraries(sol::lib::base);
+
+    LuaParser parser(m_lua, m_registry);
+
+    parser.ParseFile("data/GearsTest/prototypes/units.lua");
 
 #define TESTING
 
@@ -59,36 +67,20 @@ World::~World()
 void World::saveTo(const sf::String& fileName)
 {
     // output file
-    std::ofstream f;
-
-    /*
-    //open file for text output
-    f.open(fileName, std::ios::out | std::ios::trunc);
-    f << m_worldName.toAnsiString() << std::endl;
-    // TODO: savefile version
-    f.close();
-    */
-
-    // open file for binary output
-    f.open(fileName, std::ios::out | std::ios::app | std::ios::binary);
+    std::ofstream f(fileName, std::ios::out | std::ios::app | std::ios::binary);
+    // output archive
     cereal::BinaryOutputArchive output{f};
-    m_registry.snapshot().entities(output).destroyed(output)/*.component<cmp::Unit, cmp::Body, cmp::Sprite, cmp::Health, cmp::Position, cmp::Velocity, cmp::Equipment, cmp::Inventory, cmp::Selectable>(output)*/;
+    // save registry
+    m_registry.snapshot().entities(output).destroyed(output) /*.component<cmp::Unit, cmp::Body, cmp::Sprite, cmp::Health, cmp::Position, cmp::Velocity, cmp::Equipment, cmp::Inventory, cmp::Selectable>(output)*/;
 }
 void World::loadFrom(const sf::String& fileName)
 {
-    std::ifstream f;
-
-    /*
-    f.open(fileName);
-    std::string str;
-    std::getline(f, str);
-    m_worldName = str;
-    f.close()
-    */
-
-    f.open(fileName, std::ios::in | std::ios::binary);
+    //input file
+    std::ifstream f(fileName, std::ios::in | std::ios::binary);
+    //input archive
     cereal::BinaryInputArchive input{f};
-    m_registry.restore().entities(input).destroyed(input)/*.component<cmp::Unit, cmp::Body, cmp::Sprite, cmp::Health, cmp::Position, cmp::Velocity, cmp::Equipment, cmp::Inventory, cmp::Selectable>(input)*/;
+    // load registry
+    m_registry.restore().entities(input).destroyed(input) /*.component<cmp::Unit, cmp::Body, cmp::Sprite, cmp::Health, cmp::Position, cmp::Velocity, cmp::Equipment, cmp::Inventory, cmp::Selectable>(input)*/;
 }
 
 void World::update(float dt)

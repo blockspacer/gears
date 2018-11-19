@@ -30,14 +30,19 @@ public:
     void mouseMoveEvent(const sf::Vector2f& pos);
 
 private:
-    sf::String m_worldName;
+    // Gameplay Map
+    ge::Map m_map;
 
-    Map m_map;
+    // Graphical cursor
+    ge::Cursor m_cursor;
 
-    Cursor m_cursor;
-
+    // Registry of all the entities
     entt::DefaultRegistry m_registry;
 
+    // The lua state
+    sol::state m_lua;
+
+    // Systems
     MovementSystem  m_movementSystem;
     RenderingSystem m_renderingSystem;
     SelectionSystem m_selectionSystem;
