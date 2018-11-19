@@ -4,7 +4,7 @@
 solution "gears"
     configurations { "Debug", "Release" }
 
-    buildoptions { "-std=c++17" }
+    buildoptions { "-std=c++17", "-Wno-narrowing" }
 
     -- A project defines one build target
     project "gears"
