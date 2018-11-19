@@ -12,9 +12,10 @@ class LuaParser
 public:
     LuaParser(sol::state& luaState, entt::DefaultRegistry& registry);
 
-    bool ParseFile(std::string filename);
+    bool parseFile(const std::string& filename);
 
 private:
+
     sol::state&            m_lua;
     entt::DefaultRegistry& m_registry;
 };

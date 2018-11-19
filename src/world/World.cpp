@@ -27,9 +27,9 @@ World::World()
 
     LuaParser parser(m_lua, m_registry);
 
-    parser.ParseFile("data/GearsTest/prototypes/units.lua");
+    parser.parseFile("data/GearsTest/prototypes/units.lua");
 
-#define TESTING
+//#define TESTING
 
 #ifdef TESTING
 

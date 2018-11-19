@@ -10,7 +10,7 @@ LuaParser::LuaParser(sol::state& luaState, entt::DefaultRegistry& registry)
 {
 }
 
-bool LuaParser::ParseFile(std::string filename)
+bool LuaParser::parseFile(const std::string& filename)
 {
     m_lua.script_file(filename);
 
@@ -28,33 +28,42 @@ bool LuaParser::ParseFile(std::string filename)
         entt::DefaultPrototype p(m_registry);
         // set record key as Prototype id
         p.set<cmp::Prototype>(id);
+        std::cout << id << std::endl;
 
         // TYPE
-        if(table["type"] == "unit") {
+        std::string type = table["type"];
+        if(type == "unit") {
             p.set<cmp::Unit>();
-        } else if(table["type"] == "item") {
+        } else if(type == "item") {
             p.set<cmp::Item>();
-        }// TODO ...
+        } // TODO ...
 
         // populate prototype
         for(auto key_value_pair : table) {
             const sol::object& key   = key_value_pair.first;
             const sol::object& value = key_value_pair.second;
+
+            switch(entt::HashedString(key.as<std::string>().c_str())) {
+
+            case "body"_hs:
+                p.set<cmp::Body>(value.as<sol::table>()[0], value.as<sol::table>()[1]);
+                break;
+
+            case "texture"_hs:
+                //TODO
+                break;
+
+            case "maxHealth"_hs:
+                p.set<cmp::Health>(value.as<int>());
+                break;
+
+            case "selectable"_hs:
+                if(value.as<bool>())
+                    p.set<cmp::Selectable>();
+                break;
+            }
         }
     }
-
-
-
-    /*
-        p.set<cmp::Body>(16u, 16u);
-        p.set<cmp::Sprite>(sprt);
-        p.set<cmp::Health>(100u);
-        p.set<cmp::Position>();
-        p.set<cmp::Velocity>();
-        p.set<cmp::Equipment>();
-        p.set<cmp::Inventory>(4u);
-        p.set<cmp::Selectable>();
-        */
 }
 
 } // namespace ge

@@ -11,6 +11,8 @@ namespace cmp {
 
 struct Item
 {
+    Item()
+        : itemId(0) {}
     Item(sf::Uint32 id)
         : itemId(id) {}
 
