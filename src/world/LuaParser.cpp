@@ -10,15 +10,16 @@ LuaParser::LuaParser(sol::state& luaState, entt::DefaultRegistry& registry)
 {
 }
 
-bool LuaParser::parseFile(const std::string& filename)
+bool LuaParser::parseFile(const std::string& filename, std::unordered_map<std::string, entt::DefaultPrototype>& prototypes)
 {
     m_lua.script_file(filename);
 
-    sol::optional<sol::table> data = m_lua["data"];
+    sol::optional<sol::table> data = m_lua["prototypes"];
     if(!data) {
         std::cerr << "Invalid file" << std::endl;
         return false;
     }
+
 
     for(auto record : data.value()) {
         // get record
@@ -45,12 +46,16 @@ bool LuaParser::parseFile(const std::string& filename)
 
             switch(entt::HashedString(key.as<std::string>().c_str())) {
 
+            case "name"_hs:
+                p.set<cmp::Name>(value.as<std::string>());
+                break;
+
             case "body"_hs:
-                p.set<cmp::Body>(value.as<sol::table>()[0], value.as<sol::table>()[1]);
+                p.set<cmp::Body>(value.as<sol::table>()["w"], value.as<sol::table>()["h"]);
                 break;
 
             case "texture"_hs:
-                //TODO
+                p.set<cmp::Sprite>(value.as<std::string>());
                 break;
 
             case "maxHealth"_hs:
@@ -61,8 +66,14 @@ bool LuaParser::parseFile(const std::string& filename)
                 if(value.as<bool>())
                     p.set<cmp::Selectable>();
                 break;
+
+            default:
+                // INVALID PROPERTY
+                break;
             }
         }
+
+        prototypes.insert(std::make_pair(id, std::move(p)));
     }
 }
 

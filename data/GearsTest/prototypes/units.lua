@@ -1,8 +1,8 @@
-data = {
+prototypes = {
     dwarfking = {
         type = "unit",
         name = "Dwarven King",
-        body = {16, 16},
+        body = {w = 16, h = 16},
         texture = "res/img/DwarvenKing.png",
         maxHealth = 100,
         equipment = {
@@ -19,7 +19,7 @@ data = {
     dwarf = {
         type = "unit",
         name = "Dwarf",
-        body = {16, 16},
+        body = {w = 16, h = 16},
         texture = "res/img/Dwarf.png",
         maxHealth = 100,
         equipment = {

@@ -5,6 +5,7 @@
 
 #include "components/Components.hpp"
 
+
 #include <cereal/archives/binary.hpp>
 
 #include <entt/entt.hpp>
@@ -27,37 +28,31 @@ World::World()
 
     LuaParser parser(m_lua, m_registry);
 
-    parser.parseFile("data/GearsTest/prototypes/units.lua");
+    parser.parseFile("data/GearsTest/prototypes/units.lua", m_prototypes);
 
-//#define TESTING
+    auto entity = m_prototypes.at("dwarfking").create();
+    m_registry.assign<cmp::Position>(entity, 4, 2);
+    m_registry.assign<cmp::Velocity>(entity, 0, -3);
+
+
+#define TESTING
 
 #ifdef TESTING
 
-    // test dwarf entity
-    static auto tex = sf::Texture();
-    tex.loadFromFile("res/img/DwarvenKing.png");
-    static auto sprt = sf::Sprite(tex);
-    sprt.scale(.5f, .5f);
-
-    entt::DefaultPrototype p(m_registry);
-    p.set<cmp::Unit>();
-    p.set<cmp::Body>(16u, 16u);
-    p.set<cmp::Sprite>(sprt);
-    p.set<cmp::Health>(100u);
-    p.set<cmp::Position>();
-    p.set<cmp::Velocity>();
-    p.set<cmp::Equipment>();
-    p.set<cmp::Inventory>(4u);
-    p.set<cmp::Selectable>();
-
     for(int i = 0; i < 42000; ++i) {
-        auto e = p.create();
-        m_registry.replace<cmp::Health>(e, 100u, std::rand() % 100 + 1);
-        m_registry.replace<cmp::Position>(e, std::rand() % (200 * 16) - 100 * 16, std::rand() % (200 * 16) - 100 * 16);
-        m_registry.replace<cmp::Velocity>(e, std::rand() % 4 - 2, std::rand() % 4 - 2);
+        auto e = m_prototypes.at("dwarfking").create();
+
+        auto& hpComp = m_registry.get<cmp::Health>(e);
+        hpComp.current = std::rand() % hpComp.max + 1;
+        m_registry.assign<cmp::Position>(e, std::rand() % (200 * 16) - 100 * 16, std::rand() % (200 * 16) - 100 * 16);
+        m_registry.assign<cmp::Velocity>(e, std::rand() % 4 - 2, std::rand() % 4 - 2);
     }
 
+
 #endif
+
+    loadSprites();
+
 }
 
 World::~World()
@@ -71,7 +66,7 @@ void World::saveTo(const sf::String& fileName)
     // output archive
     cereal::BinaryOutputArchive output{f};
     // save registry
-    m_registry.snapshot().entities(output).destroyed(output) /*.component<cmp::Unit, cmp::Body, cmp::Sprite, cmp::Health, cmp::Position, cmp::Velocity, cmp::Equipment, cmp::Inventory, cmp::Selectable>(output)*/;
+    m_registry.snapshot().entities(output).destroyed(output).component<cmp::Unit, cmp::Body, cmp::Sprite, cmp::Health, cmp::Position, cmp::Velocity, cmp::Equipment, cmp::Inventory, cmp::Selectable>(output);
 }
 void World::loadFrom(const sf::String& fileName)
 {
@@ -80,7 +75,9 @@ void World::loadFrom(const sf::String& fileName)
     //input archive
     cereal::BinaryInputArchive input{f};
     // load registry
-    m_registry.restore().entities(input).destroyed(input) /*.component<cmp::Unit, cmp::Body, cmp::Sprite, cmp::Health, cmp::Position, cmp::Velocity, cmp::Equipment, cmp::Inventory, cmp::Selectable>(input)*/;
+    m_registry.restore().entities(input).destroyed(input).component<cmp::Unit, cmp::Body, cmp::Sprite, cmp::Health, cmp::Position, cmp::Velocity, cmp::Equipment, cmp::Inventory, cmp::Selectable>(input);
+    //load sprites
+    loadSprites();
 }
 
 void World::update(float dt)
@@ -132,6 +129,18 @@ void World::commandEvent(const sf::Vector2f& pos)
 void World::mouseMoveEvent(const sf::Vector2f& pos)
 {
     m_cursor.setPosition(pos);
+}
+
+void World::loadSprites()
+{
+    auto spriteView = m_registry.view<cmp::Sprite>(entt::raw_t{});
+    for(auto& spriteComp : spriteView) {
+        spriteComp.sprite = sf::Sprite(m_textures.acquire(
+            spriteComp.texPath,
+            thor::Resources::fromFile<sf::Texture>(spriteComp.texPath),
+            thor::Resources::Reuse));
+        spriteComp.sprite.scale(.5f, .5f);
+    }
 }
 
 } // namespace ge

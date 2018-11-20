@@ -13,10 +13,10 @@ namespace cmp {
 
 struct Prototype
 {
-    Prototype(sf::String id)
+    Prototype(std::string id)
         : id(id) {}
 
-    sf::String id;
+    std::string id;
 
     template <class Archive>
     void serialize(Archive& archive)
@@ -94,16 +94,16 @@ struct Body
 
 struct Sprite
 {
-    Sprite(const sf::Sprite& sprite = sf::Sprite())
-        : sprite(sprite) {}
+    Sprite(const std::string& texturePath = std::string())
+        : texPath(texturePath) {}
 
-    sf::String spriteId;
+    std::string texPath;
     sf::Sprite sprite;
 
     template <class Archive>
     void serialize(Archive& archive)
     {
-        archive(spriteId);
+        archive(texPath);
     }
 };
 

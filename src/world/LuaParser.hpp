@@ -5,6 +5,8 @@
 #include <entt/entity/registry.hpp>
 #include <sol/sol.hpp>
 
+#include <unordered_map>
+
 namespace ge {
 
 class LuaParser
@@ -12,7 +14,7 @@ class LuaParser
 public:
     LuaParser(sol::state& luaState, entt::DefaultRegistry& registry);
 
-    bool parseFile(const std::string& filename);
+    bool parseFile(const std::string& filename, std::unordered_map<std::string, entt::DefaultPrototype>& prototypes);
 
 private:
 
